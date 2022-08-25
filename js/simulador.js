@@ -368,7 +368,6 @@ function borrarCarrito() {
         let encontrarCheck = carritoArr.some(item => item.checkbox == true);
         if(!encontrarCheck){
             carritoArr = [];
-            localStorage.setItem("carrito", JSON.stringify(carritoArr));
         }else{
             carritoArr.forEach((producto) => {
                 if(producto.checkbox) {
@@ -376,6 +375,7 @@ function borrarCarrito() {
                 }
             });
         }
+        localStorage.setItem("carrito", JSON.stringify(carritoArr));
         ejecucionCarrito();
     });
 };
