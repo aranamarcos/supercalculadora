@@ -1,0 +1,133 @@
+
+/* ------------------------------------- */
+/* Mapa colores */
+
+$myColors: (
+    c1: cornflowerblue,
+    c2: salmon,
+    c3: #f8f9fa,
+    c4: black,
+    c5: lightgrey
+);
+
+
+/* ------------------------------------- */
+/* Clases colores */
+
+@each $myColors_name, $myColors_value in $myColors {
+    .fontColor_#{$myColors_name} {
+        color: $myColors_value;
+    }
+}
+
+
+/* ------------------------------------- */
+/* Formatos generales */
+
+section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    min-height: 100vh;
+}
+
+img {
+    max-width: 70%;
+}
+
+nav img {
+    height: 35px;
+    width: auto;
+    margin-right: 10px;
+}
+
+
+/* ------------------------------------- */
+/* Estructura grid body */
+
+#estructuraBody {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 61px auto auto auto auto 60px;
+    grid-template-areas: "header" "inicio" "ayuda" "comparar" "agregar" "carrito" "footer";
+}
+
+// MENU
+header {
+    grid-area: header;
+    height: 400px;
+}
+
+// SECCION 1: INICIO
+#seccionInicio {
+    grid-area: inicio;
+    background-color: white;
+    height: 100vh;
+}
+
+// SECCION 2: AYUDA
+#seccionAyuda {
+    grid-area: ayuda;
+    background-color: lightcoral;
+}
+
+// SECCION 3: COMPARAR PRODUCTO
+#seccionComparar {
+    grid-area: comparar;
+    background-color: gold;
+}
+
+// SECCION 4: AGREGAR PRODUCTO
+#seccionAgregar {
+    grid-area: agregar;
+    background-color: mediumaquamarine;
+}
+
+// SECCION 5: CARRITO
+#seccionCarrito {
+    grid-area: carrito;
+    background-color: lightskyblue;
+    .itemCarrito {
+        padding-bottom: 10px;
+        padding-top: 10px;
+        border-bottom: 1px solid steelblue;
+        .itemCarrito_check { 
+            width: 10%;
+            display: flex;
+            align-items: center;
+        }
+        .itemCarrito_descripcion { 
+            width: 70%;
+            p {
+                font-size: small;
+                margin-bottom: 0px;
+            }
+        }
+        .itemCarrito_total { 
+            width: 20%; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    input:checked + #seccionCarrito {
+        color: steelblue;
+        opacity: 50%;
+        text-decoration: line-through;
+    }
+
+}
+
+// FOOTER: Accesos rapidos
+footer {
+    grid-area: footer;
+    background-color: map-get($myColors, c3);
+    img {
+        padding: 10px;
+        opacity: 30%;
+        max-height: 80px;
+    }
+}
+
+
+
+

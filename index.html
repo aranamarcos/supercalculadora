@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador</title>
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <!-- mi estilo css -->
+    <link rel="stylesheet" href="./css/styles.css"/>
+</head>
+
+<body id="estructuraBody">
+
+    <!-- ********************************************************************** -->
+    <!-- MENU -->
+    <!-- ********************************************************************** -->
+    
+    <header>
+        <nav class="navbar navbar-expand-lg bg-light fixed-top">
+            <div class="container-fluid">
+                <!-- icono y titulo -->
+                <a class="navbar-brand d-flex align-items-center" href="#seccionInicio">
+                    <img class="iconContacto" src="./assets/img/logo_supercalculadora.png" alt="instagram" class="d-inline-block align-text-top">
+                    <span class="fontColor_c1">SUPER</span><span class="fontColor_c2">CALCULADORA</span>
+                </a>
+                <!-- boton menu burger -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- links -->
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link" href="#seccionComparar">Comparar</a>
+                        <a class="nav-link" href="#seccionAgregar">Agregar</a>
+                        <a class="nav-link" href="#seccionCarrito">Carrito</a>
+                        <a class="nav-link" href="#seccionAyuda">Ayuda</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <main>
+        <div class="container-fluid justify-content-center">
+            <div class="row">
+
+
+                <!-- ********************************************************************** -->
+                <!-- SECCION 1: INICIO  -->
+                <!-- ********************************************************************** -->
+                
+                <section id="seccionInicio">
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6">
+
+                                <h1>SuperCalculadora</h1>
+
+                                <img src="./assets/img/logo_supercalculadora.png" alt="">
+
+                                <p>Una forma mas facil de elegir y controlar tus compras en el supermercado.</p>
+                                   
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ********************************************************************** -->
+                <!-- SECCION 2: AYUDA  -->
+                <!-- ********************************************************************** -->
+
+                <section id="seccionAyuda">
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6">
+
+                                <h2>Como usar SUPERCALCULADORA</h2>
+
+                                <a>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean fringilla condimentum gravida. Donec eleifend nulla porta sem molestie ultrices. Duis augue turpis, dapibus eget risus a, fringilla tincidunt orci. Suspendisse potenti. Phasellus ac gravida mauris, vel blandit eros. Nulla ac odio facilisis, hendrerit tellus vel, tincidunt sem. Nulla condimentum, nisl vel cursus efficitur, ante nisi finibus tortor, at commodo odio elit eget sem. In eget consequat felis. Pellentesque tincidunt tellus ante, sit amet vehicula risus sodales ut. Vestibulum pellentesque ullamcorper ante, ut sollicitudin orci facilisis tincidunt. Ut nec libero fringilla ligula sagittis ornare. Vivamus vitae finibus tortor. Suspendisse nec fermentum tellus. Cras laoreet rhoncus sapien, vitae lacinia libero vestibulum ut. In ut orci ut lorem vestibulum dictum eu vitae turpis.
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ********************************************************************** -->
+                <!-- SECCION 3: COMPARAR PRODUCTO  -->
+                <!-- ********************************************************************** -->
+
+                <section id="seccionComparar">
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6">
+
+                                <h2>Comparar 2 opciones</h2>
+            
+                                <form>
+                                    <!-- nombre del producto -->
+                                    <div class="mb-3">
+                                        <a>Ingresa un NOMBRE para identificar el producto</a>
+                                        <div class="d-flex">
+                                            <input type="text" class="form-control me-2" id="domCompara_campoNombreA" placeholder="A) Ej: Yerba 1/2 kg">
+                                            <input type="text" class="form-control ms-2" id="domCompara_campoNombreB" placeholder="B) Ej: Yerba 1 kg">
+                                        </div>
+                                    </div>
+
+                                    <!-- cantidadPorPaquete del producto -->
+                                    <div class="mb-3">
+                                        <a>Ingresa la CANTIDAD que trae el PAQUETE</a>
+                                        <div class="d-flex">
+                                            <input type="text" class="form-control me-2" id="domCompara_campoPesoA" placeholder="A) Ej: 500">
+                                            <input type="text" class="form-control ms-2" id="domCompara_campoPesoB" placeholder="B) Ej: 1000">
+                                        </div>
+                                    </div>
+                        
+                                    <!-- precio unitario -->
+                                    <div class="mb-3">
+                                        <a>Ingresa el PRECIO ($)</a>
+                                        <div class="d-flex">
+                                            <input type="text" class="form-control me-2" id="domCompara_campoPrecioA" placeholder="A) Ej: 400">
+                                            <input type="text" class="form-control ms-2" id="domCompara_campoPrecioB" placeholder="B) Ej: 900">
+                                        </div>
+                                    </div>
+                        
+                                    <!-- descuento -->
+                                    <div class="mb-3">
+                                        <a>Elija si el producto tiene DESCUENTO</a>
+                                        <div class="d-flex">
+                                            <select class="form-select me-2 dom_menuDescuentos" id="domCompara_campoDescuentoA"></select>
+                                            <select class="form-select ms-2 dom_menuDescuentos" id="domCompara_campoDescuentoB"></select>
+                                        </div>
+                                    </div>
+                            
+                                    <!-- boton -->
+                                    <button type="button" class="btn btn-primary" id="domCompara_botonComparar">¿Cual me conviene?</button>
+                                    
+                                    <!-- respuesta -->
+                                    <div id="dom_respuestaComparacion"></div>
+                                
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ********************************************************************** -->
+                <!-- SECCION 4: AGREGAR PRODUCTO  -->
+                <!-- ********************************************************************** -->
+
+                <section id="seccionAgregar">
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6">
+
+                                <h2>Agregar un producto al carrito</h2>
+
+                                <form>
+                                    <!-- nombre del producto -->
+                                    <div class="mb-3">
+                                        <a>Ingresa un NOMBRE para identificar el producto</a>
+                                        <input type="text" class="form-control" id="domCarrito_campoNombre" placeholder="Ej: yerba" required>
+                                    </div>
+                        
+                                    <!-- precio unitario -->
+                                    <div class="mb-3">
+                                        <a>Ingresa el PRECIO ($)</a>
+                                        <input type="text" class="form-control" id="domCarrito_campoPrecio" placeholder="Ej: 100" required>
+                                    </div>
+                        
+                                    <!-- cantidad -->
+                                    <div class="mb-3">
+                                        <a>Ingresa la CANTIDAD a comprar</a>
+                                        <input type="text" class="form-control" id="domCarrito_campoCantidad" placeholder="Ej: 6" required>
+                                    </div>
+                        
+                                    <!-- descuento1 -->
+                                    <div class="mb-3">
+                                        <a>Elija si el producto tiene DESCUENTO</a>
+                                        <select class="form-select dom_menuDescuentos" id="domCarrito_campoDescuento1"></select>
+                                    </div>
+                        
+                                    <!-- descuento2 -->
+                                    <div class="mb-3">
+                                        <a>Elija si le aplica un DESCUENTO ADICIONAL</a>
+                                        <select class="form-select dom_menuDescuentos" id="domCarrito_campoDescuento2"></select>
+                                    </div>
+                            
+                                    <!-- boton agregar -->
+                                    <button type="reset" class="btn btn-primary" id="domCarrito_botonAgregar">Agregar al carrito</button>
+                                    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                
+                <!-- ********************************************************************** -->
+                <!-- SECCION 5: CARRITO  -->
+                <!-- ********************************************************************** -->
+
+                <section id="seccionCarrito">
+       
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6">
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h2>Mi carrito</h2>
+                                    <h2 class="text-bg-success" id="dom_totalCarrito"></h2>
+                                    <button type="button" class="btn btn-danger" id="domCarrito_botonBorrar"><i class="bi bi-trash3-fill"></i></button>
+                                </div>
+
+                                <div id="dom_seccionCarrito"></div>
+                     
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+
+    <!-- ********************************************************************** -->
+    <!-- FOOTER: Accesos rapidos  -->
+    <!-- ********************************************************************** -->
+    
+    <footer class="d-flex justify-content-center fixed-bottom">
+        <div class="d-flex align-items-center justify-content-center gap-2">
+
+            <!-- boton ir a COMPARAR -->
+            <a href="#seccionComparar" class="d-flex align-items-center justify-content-center">
+                <img src="./assets/img/icono_comparar.png" alt="comparar dos opciones">
+            </a>
+
+            <!-- boton ir a AGREGAR -->
+            <a href="#seccionAgregar" class="d-flex align-items-center justify-content-center">
+                <img src="./assets/img/icono_agregar.png" alt="agregar producto">
+            </a>
+
+            <!-- boton ir a CARRITO -->
+            <a href="#seccionCarrito" class="d-flex align-items-center justify-content-center">
+                <img src="./assets/img/icono_carrito.png" alt="ver carrito">
+            </a>
+        </div>
+    </footer>
+
+    <!-- bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+    <!-- simulador JS -->
+    <script src="./js/simulador.js"></script>
+
+</body>
+</html>
