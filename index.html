@@ -109,8 +109,8 @@
                                     <div class="mb-3">
                                         <a>Ingresa un NOMBRE para identificar el producto</a>
                                         <div class="d-flex">
-                                            <input type="text" class="form-control me-2" id="domCompara_campoNombreA" placeholder="A) Ej: Yerba 1/2 kg">
-                                            <input type="text" class="form-control ms-2" id="domCompara_campoNombreB" placeholder="B) Ej: Yerba 1 kg">
+                                            <input type="text" class="form-control me-2" id="domCompara_campoNombreA" placeholder="A)Ej: Yerba 1/2kg" autocomplete="off">
+                                            <input type="text" class="form-control ms-2" id="domCompara_campoNombreB" placeholder="B)Ej: Yerba 1kg" autocomplete="off">
                                         </div>
                                     </div>
 
@@ -118,8 +118,8 @@
                                     <div class="mb-3">
                                         <a>Ingresa la CANTIDAD que trae el PAQUETE</a>
                                         <div class="d-flex">
-                                            <input type="text" class="form-control me-2" id="domCompara_campoPesoA" placeholder="A) Ej: 500">
-                                            <input type="text" class="form-control ms-2" id="domCompara_campoPesoB" placeholder="B) Ej: 1000">
+                                            <input type="text" class="form-control me-2" id="domCompara_campoPesoA" placeholder="A)Ej: 500" autocomplete="off">
+                                            <input type="text" class="form-control ms-2" id="domCompara_campoPesoB" placeholder="B)Ej: 1000" autocomplete="off">
                                         </div>
                                     </div>
                         
@@ -127,8 +127,8 @@
                                     <div class="mb-3">
                                         <a>Ingresa el PRECIO ($)</a>
                                         <div class="d-flex">
-                                            <input type="text" class="form-control me-2" id="domCompara_campoPrecioA" placeholder="A) Ej: 400">
-                                            <input type="text" class="form-control ms-2" id="domCompara_campoPrecioB" placeholder="B) Ej: 900">
+                                            <input type="text" class="form-control me-2" id="domCompara_campoPrecioA" placeholder="A)Ej: 400" autocomplete="off">
+                                            <input type="text" class="form-control ms-2" id="domCompara_campoPrecioB" placeholder="B)Ej: 900" autocomplete="off">
                                         </div>
                                     </div>
                         
@@ -170,19 +170,19 @@
                                     <!-- nombre del producto -->
                                     <div class="mb-3">
                                         <a>Ingresa un NOMBRE para identificar el producto</a>
-                                        <input type="text" class="form-control" id="domCarrito_campoNombre" placeholder="Ej: yerba" required>
+                                        <input type="text" class="form-control" id="domCarrito_campoNombre" placeholder="Ej: yerba" autocomplete="off" required>
                                     </div>
                         
                                     <!-- precio unitario -->
                                     <div class="mb-3">
                                         <a>Ingresa el PRECIO ($)</a>
-                                        <input type="text" class="form-control" id="domCarrito_campoPrecio" placeholder="Ej: 100" required>
+                                        <input type="text" class="form-control" id="domCarrito_campoPrecio" placeholder="Ej: 100" autocomplete="off" required>
                                     </div>
                         
                                     <!-- cantidad -->
                                     <div class="mb-3">
                                         <a>Ingresa la CANTIDAD a comprar</a>
-                                        <input type="text" class="form-control" id="domCarrito_campoCantidad" placeholder="Ej: 6" required>
+                                        <input type="text" class="form-control" id="domCarrito_campoCantidad" placeholder="Ej: 6" autocomplete="off" required>
                                     </div>
                         
                                     <!-- descuento1 -->
@@ -259,9 +259,11 @@
         </div>
     </footer>
 
+    
     <!-- bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-
+    <!-- sweet alert -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- simulador JS -->
     <script src="./js/simulador.js"></script>
 

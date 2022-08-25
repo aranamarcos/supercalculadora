@@ -316,7 +316,15 @@ function agregarProductoCarrito(){
         // Ejecutar funcion para mostrar el carrito en html y mostrar mensaje item cargado
         dom_mostrarCarrito();
         chequearTicket();
-        alert(`Agregaste ${itemProducto.nombre} al carrito`);
+
+        // Muestro confirmacion de item cargado al carrito
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: `Agregaste ${itemProducto.nombre} al carrito`,
+            showConfirmButton: false,
+            timer: 1500
+        })
     });
 
 }
@@ -356,7 +364,6 @@ function chequearTicket(){
 };
 
 
-
 // Eventos CARRITO: Borrar carrito
 // --------------------------------------------------------------------------
 
@@ -366,17 +373,29 @@ function borrarCarrito() {
     
     domCarrito_botonBorrar.onclick=(()=>{
         let encontrarCheck = carritoArr.some(item => item.checkbox == true);
-        if(!encontrarCheck){
-            carritoArr = [];
-        }else{
-            carritoArr.forEach((producto) => {
-                if(producto.checkbox) {
-                    carritoArr.splice(carritoArr.indexOf(producto), 1);
+        
+        Swal.fire({
+            title: 'Estas seguro que queres borrar?',
+            showCancelButton: true,
+            confirmButtonText: 'Borrar',
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                if(!encontrarCheck){
+                    carritoArr = [];
+                }else{
+                    carritoArr.forEach((producto) => {
+                        if(producto.checkbox) {
+                            carritoArr.splice(carritoArr.indexOf(producto), 1);
+                        }
+                    });
                 }
-            });
-        }
-        localStorage.setItem("carrito", JSON.stringify(carritoArr));
-        ejecucionCarrito();
+                localStorage.setItem("carrito", JSON.stringify(carritoArr));
+                ejecucionCarrito();
+
+                Swal.fire('Borrado', '', 'success')
+            };
+        });
     });
 };
 
