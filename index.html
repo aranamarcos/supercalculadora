@@ -170,6 +170,63 @@
                                     <!-- nombre del producto -->
                                     <div class="mb-3">
                                         <a>Ingresa un NOMBRE para identificar el producto</a>
+                                        <input type="text" class="form-control" id="domCarrito_campoNombrex" placeholder="Ej: yerba" autocomplete="off" required>
+                                    </div>
+                        
+                                    <!-- precio unitario -->
+                                    <div class="mb-3">
+                                        <a>Ingresa el PRECIO ($)</a>
+                                        <input type="text" class="form-control" id="domCarrito_campoPreciox" placeholder="Ej: 100" autocomplete="off" required>
+                                    </div>
+                        
+                                    <!-- cantidad -->
+                                    <div class="mb-3">
+                                        <a>Ingresa la CANTIDAD a comprar</a>
+                                        <input type="text" class="form-control" id="domCarrito_campoCantidadx" placeholder="Ej: 6" autocomplete="off" required>
+                                    </div>
+                        
+                                    <!-- descuento1 -->
+                                    <div class="mb-3">
+                                        <a>Elija si el producto tiene DESCUENTO</a>
+                                        <select class="form-select dom_menuDescuentos" id="domCarrito_campoDescuento1x"></select>
+                                    </div>
+                        
+                                    <!-- descuento2 -->
+                                    <div class="mb-3">
+                                        <a>Elija si le aplica un DESCUENTO ADICIONAL</a>
+                                        <select class="form-select dom_menuDescuentos" id="domCarrito_campoDescuento2x"></select>
+                                    </div>
+                            
+                                    <!-- boton agregar -->
+                                    <button type="reset" class="btn btn-primary" id="domCarrito_botonAgregarx">Agregar al carrito</button>
+                                    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- MODAL CARRITO -->
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Launch demo modal
+                    </button>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                
+                                <form>
+                                    <!-- nombre del producto -->
+                                    <div class="mb-3">
+                                        <a>Ingresa un NOMBRE para identificar el producto</a>
                                         <input type="text" class="form-control" id="domCarrito_campoNombre" placeholder="Ej: yerba" autocomplete="off" required>
                                     </div>
                         
@@ -196,15 +253,20 @@
                                         <a>Elija si le aplica un DESCUENTO ADICIONAL</a>
                                         <select class="form-select dom_menuDescuentos" id="domCarrito_campoDescuento2"></select>
                                     </div>
-                            
-                                    <!-- boton agregar -->
-                                    <button type="reset" class="btn btn-primary" id="domCarrito_botonAgregar">Agregar al carrito</button>
                                     
                                 </form>
+
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <!-- boton agregar -->
+                            <button type="reset" class="btn btn-primary" id="domCarrito_botonAgregar">Agregar al carrito</button>
                             </div>
                         </div>
+                        </div>
                     </div>
-                </section>
+
+
 
                 
                 <!-- ********************************************************************** -->

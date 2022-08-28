@@ -294,12 +294,6 @@ function agregarProductoCarrito(){
     let domCarrito_campoDescuento1 = document.getElementById("domCarrito_campoDescuento1");
     let domCarrito_campoDescuento2 = document.getElementById("domCarrito_campoDescuento2");
     let domCarrito_botonAgregar = document.getElementById("domCarrito_botonAgregar");
-    
-    let posicion_seccionAgregar = document.getElementById("seccionAgregar").getBoundingClientRect();
-    
-    domCarrito_campoNombre.onclick=(() => {
-        window.scrollTo(0, posicion_seccionAgregar.top);
-    });
 
     
     domCarrito_botonAgregar.onclick=(()=>{
