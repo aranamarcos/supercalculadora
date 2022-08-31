@@ -63,7 +63,7 @@
 
                                 <img src="./assets/img/logo_supercalculadora.png" alt="">
 
-                                <p>Una forma mas facil de elegir y controlar tus compras en el supermercado.</p>
+                                <p>Una forma mas facil de elegir y controlar tus compras cuando vas al supermercado.</p>
                                    
                             </div>
                         </div>
@@ -98,59 +98,96 @@
 
                 <section id="seccionComparar">
 
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-6">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                        Comparar productos
+                    </button>
 
-                                <h2>Comparar 2 opciones</h2>
-            
-                                <form>
-                                    <!-- nombre del producto -->
-                                    <div class="mb-3">
-                                        <a>Ingresa un NOMBRE para identificar el producto</a>
-                                        <div class="d-flex">
-                                            <input type="text" class="form-control me-2" id="domCompara_campoNombreA" placeholder="A)Ej: Yerba 1/2kg" autocomplete="off">
-                                            <input type="text" class="form-control ms-2" id="domCompara_campoNombreB" placeholder="B)Ej: Yerba 1kg" autocomplete="off">
-                                        </div>
-                                    </div>
 
-                                    <!-- cantidadPorPaquete del producto -->
-                                    <div class="mb-3">
-                                        <a>Ingresa la CANTIDAD que trae el PAQUETE</a>
-                                        <div class="d-flex">
-                                            <input type="text" class="form-control me-2" id="domCompara_campoPesoA" placeholder="A)Ej: 500" autocomplete="off">
-                                            <input type="text" class="form-control ms-2" id="domCompara_campoPesoB" placeholder="B)Ej: 1000" autocomplete="off">
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Comparar productos</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body p-0">
+                                    <div class="d-flex">
+
+                                        <!-- Producto A -->
+                                        <div class="card m-2">
+                                            <h5 class="card-header text-center" id="domCompara_headerProdA">Producto A</h5>
+                                            <div class="card-body">
+
+                                                <form id="formCompara_ProdA">
+                                                    <!-- cantidadPorPaquete del producto -->
+                                                    <div class="mb-3">
+                                                        <p class="text-center m-0">Cantidad por envase</p>
+                                                        <input type="text" class="form-control me-2" style="text-align:center" id="domCompara_campoPesoA" placeholder="" autocomplete="off">
+                                                    </div>
+                                        
+                                                    <!-- precio unitario -->
+                                                    <div class="mb-3">
+                                                        <p class="text-center m-0">Precio ($)</p>
+                                                        <input type="text" class="form-control me-2" style="text-align:center" id="domCompara_campoPrecioA" placeholder="" autocomplete="off">
+                                                    </div>
+                                        
+                                                    <!-- descuento -->
+                                                    <div class="mb-3">
+                                                        <p class="text-center m-0">Descuento</p>
+                                                        <select class="form-select me-2 dom_menuDescuentos" id="domCompara_campoDescuentoA"></select>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+
+                                        <!-- Producto B -->
+                                        <div class="card m-2">
+                                            <h5 class="card-header text-center" id="domCompara_headerProdB">Producto B</h5>
+                                            <div class="card-body">
+
+                                                <form id="formCompara_ProdB">
+                                                    <!-- cantidadPorPaquete del producto -->
+                                                    <div class="mb-3">
+                                                        <p class="text-center m-0">Cantidad por envase</p>
+                                                        <input type="text" class="form-control me-2" style="text-align:center" id="domCompara_campoPesoB" placeholder="" autocomplete="off">
+                                                    </div>
+                                        
+                                                    <!-- precio unitario -->
+                                                    <div class="mb-3">
+                                                        <p class="text-center m-0">Precio ($)</p>
+                                                        <input type="text" class="form-control me-2" style="text-align:center" id="domCompara_campoPrecioB" placeholder="" autocomplete="off">
+                                                    </div>
+                                        
+                                                    <!-- descuento -->
+                                                    <div class="mb-3">
+                                                        <p class="text-center m-0">Descuento</p>
+                                                        <select class="form-select me-2 dom_menuDescuentos" id="domCompara_campoDescuentoB"></select>
+                                                    </div>
+                                                </form>
+
+                                            </div>
                                         </div>
                                     </div>
-                        
-                                    <!-- precio unitario -->
-                                    <div class="mb-3">
-                                        <a>Ingresa el PRECIO ($)</a>
-                                        <div class="d-flex">
-                                            <input type="text" class="form-control me-2" id="domCompara_campoPrecioA" placeholder="A)Ej: 400" autocomplete="off">
-                                            <input type="text" class="form-control ms-2" id="domCompara_campoPrecioB" placeholder="B)Ej: 900" autocomplete="off">
-                                        </div>
-                                    </div>
-                        
-                                    <!-- descuento -->
-                                    <div class="mb-3">
-                                        <a>Elija si el producto tiene DESCUENTO</a>
-                                        <div class="d-flex">
-                                            <select class="form-select me-2 dom_menuDescuentos" id="domCompara_campoDescuentoA"></select>
-                                            <select class="form-select ms-2 dom_menuDescuentos" id="domCompara_campoDescuentoB"></select>
-                                        </div>
-                                    </div>
-                            
-                                    <!-- boton -->
-                                    <button type="button" class="btn btn-primary" id="domCompara_botonComparar">¿Cual me conviene?</button>
-                                    
-                                    <!-- respuesta -->
+                                    <!-- Espacio para la respuesta -->
                                     <div id="dom_respuestaComparacion"></div>
-                                
-                                </form>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" id="domCompara_botonBorrar"><i class="bi bi-trash3-fill"></i></button>
+                                    <!-- boton cancelar -->
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Salir</button>
+                                    <!-- boton agregar -->
+                                    <button type="reset" class="btn btn-primary" id="domCompara_botonComparar">Comparar</button>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </section>
 
 
@@ -160,113 +197,89 @@
 
                 <section id="seccionAgregar">
 
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-6">
-
-                                <h2>Agregar un producto al carrito</h2>
-
-                                <form>
-                                    <!-- nombre del producto -->
-                                    <div class="mb-3">
-                                        <a>Ingresa un NOMBRE para identificar el producto</a>
-                                        <input type="text" class="form-control" id="domCarrito_campoNombrex" placeholder="Ej: yerba" autocomplete="off" required>
-                                    </div>
-                        
-                                    <!-- precio unitario -->
-                                    <div class="mb-3">
-                                        <a>Ingresa el PRECIO ($)</a>
-                                        <input type="text" class="form-control" id="domCarrito_campoPreciox" placeholder="Ej: 100" autocomplete="off" required>
-                                    </div>
-                        
-                                    <!-- cantidad -->
-                                    <div class="mb-3">
-                                        <a>Ingresa la CANTIDAD a comprar</a>
-                                        <input type="text" class="form-control" id="domCarrito_campoCantidadx" placeholder="Ej: 6" autocomplete="off" required>
-                                    </div>
-                        
-                                    <!-- descuento1 -->
-                                    <div class="mb-3">
-                                        <a>Elija si el producto tiene DESCUENTO</a>
-                                        <select class="form-select dom_menuDescuentos" id="domCarrito_campoDescuento1x"></select>
-                                    </div>
-                        
-                                    <!-- descuento2 -->
-                                    <div class="mb-3">
-                                        <a>Elija si le aplica un DESCUENTO ADICIONAL</a>
-                                        <select class="form-select dom_menuDescuentos" id="domCarrito_campoDescuento2x"></select>
-                                    </div>
-                            
-                                    <!-- boton agregar -->
-                                    <button type="reset" class="btn btn-primary" id="domCarrito_botonAgregarx">Agregar al carrito</button>
-                                    
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-
                     <!-- MODAL CARRITO -->
 
-                    <!-- Button trigger modal -->
+                    <!-- Boton ejecuta el modal -->
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Launch demo modal
+                        Cargar producto al Carrito
                     </button>
                     
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                
-                                <form>
-                                    <!-- nombre del producto -->
-                                    <div class="mb-3">
-                                        <a>Ingresa un NOMBRE para identificar el producto</a>
-                                        <input type="text" class="form-control" id="domCarrito_campoNombre" placeholder="Ej: yerba" autocomplete="off" required>
-                                    </div>
-                        
-                                    <!-- precio unitario -->
-                                    <div class="mb-3">
-                                        <a>Ingresa el PRECIO ($)</a>
-                                        <input type="text" class="form-control" id="domCarrito_campoPrecio" placeholder="Ej: 100" autocomplete="off" required>
-                                    </div>
-                        
-                                    <!-- cantidad -->
-                                    <div class="mb-3">
-                                        <a>Ingresa la CANTIDAD a comprar</a>
-                                        <input type="text" class="form-control" id="domCarrito_campoCantidad" placeholder="Ej: 6" autocomplete="off" required>
-                                    </div>
-                        
-                                    <!-- descuento1 -->
-                                    <div class="mb-3">
-                                        <a>Elija si el producto tiene DESCUENTO</a>
-                                        <select class="form-select dom_menuDescuentos" id="domCarrito_campoDescuento1"></select>
-                                    </div>
-                        
-                                    <!-- descuento2 -->
-                                    <div class="mb-3">
-                                        <a>Elija si le aplica un DESCUENTO ADICIONAL</a>
-                                        <select class="form-select dom_menuDescuentos" id="domCarrito_campoDescuento2"></select>
-                                    </div>
-                                    
-                                </form>
+                            <div class="modal-content">
 
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Cargar producto al Carrito</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <form>
+
+                                        <!-- nombre del producto -->
+                                        <div class="mb-3">
+                                            <p class="m-0">Producto</p>
+                                            <input type="text" class="form-control" id="domCarrito_campoNombre" placeholder="Ej: yerba" autocomplete="off" required>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <!-- precio unitario -->
+                                            <div class="col mb-3">
+                                                <p class="m-0">Precio ($)</p>
+                                                <input type="text" class="form-control" id="domCarrito_campoPrecio" placeholder="Ej: 100" autocomplete="off" required>
+                                            </div>
+
+                                            <!-- cantidad -->
+                                            <div class="col mb-3">
+                                                <p class="m-0">Cantidad</p>
+                                                <input type="text" class="form-control" id="domCarrito_campoCantidad" placeholder="Ej: 6" autocomplete="off" required>
+                                            </div>
+                                        </div>
+                            
+
+                                        <!-- Acordeon descuentos -->
+                                        <!-- <br> -->
+                                        <hr>
+                                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="flush-headingOne">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                                    Aplicar descuento
+                                                    </button>
+                                                </h2>
+                                                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                                    <div class="accordion-body">
+
+                                                        <!-- descuento1 -->
+                                                        <div class="mb-3">
+                                                            <p class="m-0">Descuento</p>
+                                                            <select class="form-select dom_menuDescuentos" id="domCarrito_campoDescuento1"></select>
+                                                        </div>
+                                            
+                                                        <!-- descuento2 -->
+                                                        <div class="mb-3">
+                                                            <p class="m-0">Descuento Adicional</p>
+                                                            <select class="form-select dom_menuDescuentos" id="domCarrito_campoDescuento2"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <br> -->
+
+                                        <div class="modal-footer">
+                                            
+                                            <!-- boton cancelar -->
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Salir</button>
+                                            <!-- boton agregar -->
+                                            <button type="reset" class="btn btn-primary" id="domCarrito_botonAgregar">Agregar al carrito</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <!-- boton agregar -->
-                            <button type="reset" class="btn btn-primary" id="domCarrito_botonAgregar">Agregar al carrito</button>
-                            </div>
-                        </div>
                         </div>
                     </div>
-
-
 
                 
                 <!-- ********************************************************************** -->
@@ -291,7 +304,6 @@
                         </div>
                     </div>
                 </section>
-
             </div>
         </div>
     </main>

@@ -16,7 +16,7 @@ class Descuentos {
                 // Sin descuento
             case 0:
                 this.descripcionDescuento = "";
-                this.descripcionExtendidaDescuento = "sin descuento";
+                this.descripcionExtendidaDescuento = "-";
                 break;
             case 1:
                 // Descuentos del tipo X% (ejemplo: 50%, 50% de descuento)
@@ -43,18 +43,17 @@ class Descuentos {
 // DOM: Menu desplegable de descuentos en el HTML
 // --------------------------------------------------------------------------
 
-function dom_mostrarOpcionesDescuentos() {
+function dom_mostrarOpcionesDescuentos(){
     
     let dom_menuDescuentos = document.getElementsByClassName("dom_menuDescuentos");
     
     for(let i = 0; i < dom_menuDescuentos.length; i++) {
         descuentosArr.forEach((cadaDescuento, j) => {
             dom_menuDescuentos[i].innerHTML += `
-            <option value="${j+1}">${cadaDescuento.descripcionExtendidaDescuento}</option>
-            `});
-        };
-        
-    }
+            <option value="${j+1}">${cadaDescuento.descripcionExtendidaDescuento}</option>`
+        });
+    };
+}
     
     
 // Ejecucion principal de opciones de descuentos
@@ -79,7 +78,7 @@ descuentosArr.forEach((cadaDescuento, i) => cadaDescuento.nroOpcionDescuento = i
 
 // Muestro los descuentos en el html
 dom_mostrarOpcionesDescuentos();
-    
+
 
 
 
@@ -94,10 +93,11 @@ dom_mostrarOpcionesDescuentos();
 class Comparador {
 
     //Constuctor de items a comparar
-    constructor(nombre, precio, cantidadPeso) {
-        this.nombre  = nombre.toLowerCase() || 0;
-        this.precio  = parseFloat(precio).toFixed(2) || 0;
-        this.cantidadPeso = parseInt(cantidadPeso) || 0;
+    constructor(id, nombre, precio, cantidadPeso) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio  = precio.toFixed(2) || 0;
+        this.cantidadPeso = cantidadPeso || 0;
         this.precioMinimaUnidad = 0;
         this.cantidad = 0;
     }
@@ -128,55 +128,123 @@ class Comparador {
 }
 
 
-// Eventos COMPARAR: Boton comparar productos
+// Eventos COMPARAR: Boton comparar productos y borrar
 // --------------------------------------------------------------------------
 
-// Campos de ingreso de datos
-let domCompara_campoNombreA = document.getElementById("domCompara_campoNombreA");
-let domCompara_campoNombreB = document.getElementById("domCompara_campoNombreB");
-let domCompara_campoPesoA = document.getElementById("domCompara_campoPesoA");
-let domCompara_campoPesoB = document.getElementById("domCompara_campoPesoB");
-let domCompara_campoPrecioA = document.getElementById("domCompara_campoPrecioA");
-let domCompara_campoPrecioB = document.getElementById("domCompara_campoPrecioB");
-let domCompara_campoDescuentoA = document.getElementById("domCompara_campoDescuentoA");
-let domCompara_campoDescuentoB = document.getElementById("domCompara_campoDescuentoB");
-// Boton de comparacion
 let domCompara_botonComparar = document.getElementById("domCompara_botonComparar");
-// Espacio en HTML para insertar la respuesta
-let dom_respuestaComparacion = document.getElementById("dom_respuestaComparacion");
 
-
+// Evento click comparar productos
 domCompara_botonComparar.onclick=(()=>{
-    
-    let comparaArr = [];
-    let ahorroComparacion = 0;
-    
-    // Creo un nuevo item por cada opcion y los cargo en el array comparaArr
-    comparaArr.push(new Comparador(domCompara_campoNombreA.value, domCompara_campoPrecioA.value, domCompara_campoPesoA.value));
-    comparaArr.push(new Comparador(domCompara_campoNombreB.value, domCompara_campoPrecioB.value, domCompara_campoPesoB.value));
-    
-    // Calculo el precio de la unidad minima para cada producto
-    comparaArr[0].precioMinimaUni(descuentosArr[domCompara_campoDescuentoA.selectedIndex].tipoDescuento, descuentosArr[domCompara_campoDescuentoA.selectedIndex].dto_x, descuentosArr[domCompara_campoDescuentoA.selectedIndex].dto_y);
-    comparaArr[1].precioMinimaUni(descuentosArr[domCompara_campoDescuentoB.selectedIndex].tipoDescuento, descuentosArr[domCompara_campoDescuentoB.selectedIndex].dto_x, descuentosArr[domCompara_campoDescuentoB.selectedIndex].dto_y);
-    
 
-    // Muestro la respuesta en HTML
-    if(comparaArr[0].precioMinimaUnidad == comparaArr[1].precioMinimaUnidad) {
-        dom_respuestaComparacion.innerHTML = "<p>Elegi el que mas te guste, las 2 opciones cuestan lo mismo</p>";
-    } else {
+    let domCompara_campoPesoA = parseFloat(document.getElementById("domCompara_campoPesoA").value.replace(',','.'));
+    let domCompara_campoPesoB = parseFloat(document.getElementById("domCompara_campoPesoB").value.replace(',','.'));
+    let domCompara_campoPrecioA = parseFloat(document.getElementById("domCompara_campoPrecioA").value.replace(',','.'));
+    let domCompara_campoPrecioB = parseFloat(document.getElementById("domCompara_campoPrecioB").value.replace(',','.'));
+    let domCompara_campoDescuentoA = document.getElementById("domCompara_campoDescuentoA").selectedIndex;
+    let domCompara_campoDescuentoB = document.getElementById("domCompara_campoDescuentoB").selectedIndex;
+
+
+    if(domCompara_campoPesoA && domCompara_campoPesoB && domCompara_campoPrecioA && domCompara_campoPrecioB){
+        
+        let comparaArr = [];
+        let ahorroComparacion = 0;
+        
+        // Creo un nuevo item por cada opcion y los cargo en el array comparaArr
+        comparaArr.push(new Comparador(1, "Producto A", domCompara_campoPrecioA, domCompara_campoPesoA));
+        comparaArr.push(new Comparador(2, "Producto B", domCompara_campoPrecioB, domCompara_campoPesoB));
+        
+        // Calculo el precio de la unidad minima para cada producto
+        comparaArr[0].precioMinimaUni(descuentosArr[domCompara_campoDescuentoA].tipoDescuento, descuentosArr[domCompara_campoDescuentoA].dto_x, descuentosArr[domCompara_campoDescuentoA].dto_y);
+        comparaArr[1].precioMinimaUni(descuentosArr[domCompara_campoDescuentoB].tipoDescuento, descuentosArr[domCompara_campoDescuentoB].dto_x, descuentosArr[domCompara_campoDescuentoB].dto_y);
+
         // Ordeno el array por el mas economico primero y calculo el ahorro
         comparaArr.sort((a,b) => a.precioMinimaUnidad - b.precioMinimaUnidad);
         ahorroComparacion = ((comparaArr[0].cantidadPeso * comparaArr[0].cantidad) * (comparaArr[1].precioMinimaUnidad - comparaArr[0].precioMinimaUnidad))
-        // Muestro por HTML
-        dom_respuestaComparacion.innerHTML = `
-        <br>
-        <hr>
-        <p>La opcion mas economica es <strong>${comparaArr[0].nombre}</strong></p>
-        <p>Llevando ${comparaArr[0].cantidad} paquete(s) estas ahorrando <strong>$${ahorroComparacion.toFixed(2)}</strong></p>
-        `;
-    }
+        dibujarRespuestaComparacion(ahorroComparacion, comparaArr[0]);
+
+    } else {
+        // Muestro mensaje para que el usuario verifique los datos
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Por favor revise que todos los campos de cantidad y precio esten completos, y use solo numeros.',
+        })
+    };
 });
 
+
+
+// Eventos COMPARA: Boton borrar
+// --------------------------------------------------------------------------
+
+let domCompara_botonBorrar = document.getElementById("domCompara_botonBorrar");
+
+domCompara_botonBorrar.onclick=(()=>{
+    
+    // Mensaje de confirmacion
+    Swal.fire({
+        title: 'Estas seguro que queres borrar?',
+        showCancelButton: true,
+        confirmButtonText: 'Borrar',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            dibujarRespuestaComparacion(-1);
+            document.getElementById("formCompara_ProdA").reset();
+            document.getElementById("formCompara_ProdB").reset();
+            Swal.fire('Borrado', '', 'success')
+        }
+    });
+});
+
+
+// Dibujar respuesta de comparacion
+// --------------------------------------------------------------------------
+const dibujarRespuestaComparacion = ((ahorro, ProdRecomendado)=> {
+
+    console.log(ahorro, ProdRecomendado);
+
+    let dom_respuestaComparacion = document.getElementById("dom_respuestaComparacion");    
+    let dom_headerProdA = document.getElementById("domCompara_headerProdA");
+    let dom_headerProdB = document.getElementById("domCompara_headerProdB");
+
+
+    // Si envio -1 reiniciar el estado del DOM (texto de respuesta y colores de titulos)
+    if(ahorro == -1) {
+        dom_headerProdA.className = "card-header text-center";
+        dom_headerProdB.className = "card-header text-center";
+        dom_respuestaComparacion.innerHTML = "";
+
+    // Si el ahorro es cero cualquier opcion es valida
+    } else if (ahorro == 0) {
+        dom_headerProdA.className = "card-header text-center text-bg-success";
+        dom_headerProdB.className = "card-header text-center text-bg-success";
+        dom_respuestaComparacion.innerHTML = "<br><hr><p>Elegi el que mas te guste, las 2 opciones cuestan lo mismo</p>";
+
+    // Si hay una opcion recomendada
+    } else {
+
+        // Marcar de color verde en la opcion recomendada
+        switch(ProdRecomendado.id) {
+            case 1:
+                // Producto A en verde
+                dom_headerProdA.className = "card-header text-center text-bg-success";
+                dom_headerProdB.className = "card-header text-center";
+                break;
+            case 2:
+                // Producto B en verde
+                dom_headerProdA.className = "card-header text-center";
+                dom_headerProdB.className = "card-header text-center text-bg-success";
+                break;
+        };
+
+        // Muestro texto de respuesta
+        dom_respuestaComparacion.innerHTML = `
+        <hr>
+        <p class="text-center">La opcion mas economica es <strong>${ProdRecomendado.nombre}</strong></p>
+        <p class="text-center">Llevando ${ProdRecomendado.cantidad} paquete(s) estas ahorrando <strong>$${ahorro.toFixed(2)}</strong></p>
+        `;
+    };    
+});
 
 
 
@@ -184,14 +252,9 @@ domCompara_botonComparar.onclick=(()=>{
 // CARRITO DE COMPRA
 // **********************************************************************
 
-let carritoArr = [];
 let idCarrito = 0;
-
-// Recupero carrito del localStorage
-if(localStorage.getItem("carrito")!=null){
-    carritoArr = JSON.parse(localStorage.getItem("carrito"));
-    idCarrito = parseInt(localStorage.getItem("idCarrito"));
-}
+// Recupero el carrito guardado en localStorage
+let carritoArr = JSON.parse(localStorage.getItem("carrito")) || [];
 
 ejecucionCarrito();
 
@@ -200,8 +263,7 @@ ejecucionCarrito();
 // --------------------------------------------------------------------------
 
 function ejecucionCarrito() {
-    
-    // Ejecuto funcion
+
     dom_mostrarCarrito();
     agregarProductoCarrito();
     chequearTicket();
@@ -279,7 +341,7 @@ function dom_mostrarCarrito(){
 
     // Precio total del carrito
     dom_totalCarrito.innerHTML = `$ ${carritoArr.reduce((acumulador, producto) => acumulador + producto.total, 0)}`;
-
+    
 }; 
 
     
@@ -326,8 +388,7 @@ function agregarProductoCarrito(){
             timer: 1500
         })
     });
-
-}
+};
 
 
 // Eventos CARRITO: Checkbox
@@ -344,11 +405,7 @@ function chequearTicket(){
         domCarrito_botonAgregar.checked = producto.checkbox;
 
         // Aplico clase para modificar opacity
-        if(producto.checkbox){
-            domCarrito_contenidoItem.className = "itemCarrito d-flex opacity-50"
-        } else {
-            domCarrito_contenidoItem.className = "itemCarrito d-flex"
-        }
+        domCarrito_contenidoItem.className = producto.checkbox ? "itemCarrito d-flex opacity-50" : "itemCarrito d-flex";
 
         // Deteccion cambio de estado checkbox
         domCarrito_botonAgregar.onchange=(()=>{
