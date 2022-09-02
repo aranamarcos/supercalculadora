@@ -12,10 +12,12 @@
     <link rel="stylesheet" href="./css/styles.css"/>
 </head>
 
-<body>
+<body id="estructuraBody">
 
-<!-- ========== MENU ========== -->
-
+    <!-- ********************************************************************** -->
+    <!-- MENU -->
+    <!-- ********************************************************************** -->
+    
     <header>
         <nav class="navbar navbar-expand-lg bg-light fixed-top">
             <div class="container-fluid">
@@ -41,78 +43,55 @@
         </nav>
     </header>
 
-<!-- ========== MAIN ========== -->
 
-    <main class="col-lg-6">
+    <main>
+        <div class="container-fluid justify-content-center">
+            <div class="row">
 
-<!-- ========== INICIO ========== -->
 
-            <div id="seccionInicio">
+                <!-- ********************************************************************** -->
+                <!-- VISTA PRINCIPAL  -->
+                <!-- ********************************************************************** -->
                 
-                <div class="d-flex align-items-center justify-content-evenly mb-2">
-                    <div>
-                        <div class="d-flex"><h1>SUPER</h1></div>
-                        <div><h1>CALCULADORA</h1></div>    
-                    </div>
-                    <!-- <h1><span id="tituloSuper">SUPER</span><br><span id="tituloCalculadora">CALCULADORA</span></h1> -->
-                    <img src="./assets/img/logo_supercalculadora.png" alt="">
-                </div>
-               
-                <p class="text-center">Una forma mas facil de elegir y controlar tus compras cuando vas al supermercado.</p>
+                <section id="seccionInicio">
 
-                <div class="row divisorInicio"></div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6">
+
+                                <h1>SuperCalculadora</h1>
+
+                                <img src="./assets/img/logo_supercalculadora.png" alt="">
+
+                                <p>Una forma mas facil de elegir y controlar tus compras cuando vas al supermercado.</p>
                                    
-            </div>
-
-<!-- ========== BOTONES ========== -->           
-            
-            <div id="seccionBotones">
-
-                
-                
-                <!-- Boton modal AGREGAR PRODUCTO AL CARRITO -->
-                <div class="contenedorBoton d-flex">  
-                    <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#modalCargarAlCarrito">
-                        <div class="d-flex align-items-center">
-                            <div class="contenedorImgBoton">
-                                <img src="./assets/img/icon_agregar.png" alt="comparar dos opciones">
                             </div>
-                            <p class="text-center flex-fill m-0">Agregar al Carrito</p>
                         </div>
+                    </div>
+                </section>                
+
+                <section id="seccionBotones">
+                    <!-- Boton modal COMPARAR 2 PRODUCTOS -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCompararProductos">
+                        Comparar productos
                     </button>
-                </div>
-                
-                
-                <!-- Boton modal VER CARRITO -->
-                <div class="contenedorBoton d-flex">  
-                    <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#modalVerCarrito">
-                        <div class="d-flex align-items-center">
-                            <div class="contenedorImgBoton">
-                                <img src="./assets/img/icon_carrito.png" alt="comparar dos opciones">
-                            </div>
-                            <p class="text-center flex-fill m-0">Ver Carrito</p>
-                        </div>
+
+                    <!-- Boton modal CARGAR PRODUCTO AL CARRITO -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCargarAlCarrito">
+                        Cargar producto al Carrito
                     </button>
-                </div>
 
-                
-                <!-- Boton modal COMPARAR 2 PRODUCTOS -->
-                <div class="contenedorBoton d-flex">  
-                    <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#modalCompararProductos">
-                        <div class="d-flex align-items-center">
-                            <div class="contenedorImgBoton">
-                                <img src="./assets/img/icon_comparar.png" alt="comparar dos opciones">
-                            </div>
-                            <p class="text-center flex-fill m-0">Comparar productos</p>
-                        </div>
+                    <!-- Boton modal VER CARRITO -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalVerCarrito">
+                        Ver Carrito
                     </button>
-                </div>
-                
-            </div>
 
+                </section>
+                    
 
-<!-- ========== Modal COMPARAR 2 PRODUCTOS ========== -->                    
-
+                <!-- ********************************************************************** -->
+                <!-- Modal COMPARAR 2 PRODUCTOS  -->
+                <!-- ********************************************************************** -->
 
                     <div class="modal fade" id="modalCompararProductos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -198,9 +177,10 @@
                     </div>
 
 
-
-<!-- ========== Modal AGREGAR PRODUCTO AL CARRITO ========== -->
-
+                <!-- ********************************************************************** -->
+                <!-- Modal AGREGAR PRODUCTO AL CARRITO  -->
+                <!-- ********************************************************************** -->
+                    
                     <div class="modal fade" id="modalCargarAlCarrito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -277,7 +257,9 @@
                     </div>
 
 
-<!-- ========== Modal VER CARRITO ========== -->
+                <!-- ********************************************************************** -->
+                <!-- Modal VER CARRITO  -->
+                <!-- ********************************************************************** -->
 
                     <div class="modal fade" id="modalVerCarrito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -319,12 +301,12 @@
     </main>
 
 
-<!-- ========== FOOTER ========== -->
-  
+    <!-- ********************************************************************** -->
+    <!-- FOOTER: Accesos rapidos  -->
+    <!-- ********************************************************************** -->
+    
     <footer class="d-flex justify-content-center fixed-bottom">
         <div class="d-flex align-items-center justify-content-center gap-2">
-
-            <p>Hola, soy el footer</p>
 
             <!-- Boton modal COMPARAR 2 PRODUCTOS -->
             <!-- <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#modalCompararProductos">
@@ -346,9 +328,7 @@
         </div>
     </footer>
 
-
-<!-- ========== JS ========== --> 
-
+    
     <!-- bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <!-- sweet alert -->

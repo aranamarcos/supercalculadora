@@ -1,37 +1,7 @@
 
-/* ------------------------------------- */
-/* Mapa colores */
-
-$myColors: (
-    c1: cornflowerblue,
-    c2: salmon,
-    c3: #f8f9fa,
-    c4: black,
-    c5: lightgrey
-);
-
-
-/* ------------------------------------- */
-/* Clases colores */
-
-@each $myColors_name, $myColors_value in $myColors {
-    .fontColor_#{$myColors_name} {
-        color: $myColors_value;
-    }
-}
-
-
-/* ------------------------------------- */
-/* Formatos generales */
-
-section {
-    padding-top: 80px;
-    padding-bottom: 80px;
-    min-height: 100vh;
-}
-
-img {
-    max-width: 70%;
+body {
+    // height: 100vh;
+    background-color: #f2f2f2;
 }
 
 nav img {
@@ -41,93 +11,64 @@ nav img {
 }
 
 
-/* ------------------------------------- */
-/* Estructura grid body */
-
-#estructuraBody {
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 61px auto auto auto auto 60px;
-    grid-template-areas: "header" "inicio" "ayuda" "comparar" "agregar" "carrito" "footer";
-}
-
-// MENU
-header {
-    grid-area: header;
-    height: 400px;
-}
-
-// SECCION 1: INICIO
 #seccionInicio {
-    grid-area: inicio;
-    background-color: white;
-    height: 100vh;
+    color: white;
+    padding: 90px 10px 0px;
+    // background: linear-gradient(rgb(248, 249, 250),rgb(248, 249, 250), white);
+    background-color: mediumpurple;
+    // border-radius: 0px 0px 40px 40px;
+    // box-shadow: 0px 10px 10px -6px gainsboro;
+    h1 {
+        padding: 5px;
+        color: black;
+        transform: rotate(-5deg);
+        background-color: gold;
+    }
+    img {
+        max-width: 40%;
+    }
+    p {
+        margin: 30px 5px;
+    }
+    .divisorInicio {
+        height: 50px;
+        margin-bottom: 50px;
+        background-color: #f2f2f2;
+        border-radius: 40px 40px 0px 0px;
+        transform: translate(0px, 5px);
+    }
 }
 
-// SECCION 2: AYUDA
-#seccionAyuda {
-    grid-area: ayuda;
-    background-color: lightcoral;
-}
-
-// SECCION 3: COMPARAR PRODUCTO
-#seccionComparar {
-    grid-area: comparar;
-    background-color: gold;
-}
-
-// SECCION 4: AGREGAR PRODUCTO
-#seccionAgregar {
-    grid-area: agregar;
-    background-color: mediumaquamarine;
-}
-
-// SECCION 5: CARRITO
-#seccionCarrito {
-    grid-area: carrito;
-    background-color: lightskyblue;
-    .itemCarrito {
-        padding-bottom: 10px;
-        padding-top: 10px;
-        border-bottom: 1px solid steelblue;
-        .itemCarrito_check { 
-            width: 10%;
-            display: flex;
-            align-items: center;
+#seccionBotones {
+    .contenedorBoton {
+        height: 70px;
+        margin: 40px;
+        background-color: #f2f2f2;
+        // box-shadow: 0px 5px 5px gray;
+        box-shadow:  10px 10px 20px #dadada,
+        -10px -10px 20px #ffffff;
+        border-radius: 5px;
+    }
+    button {
+        width: 100%;
+        color: mediumpurple;
+        font-weight: bold;
+        font-size: large;
+        div {
+            height: 100%;
         }
-        .itemCarrito_descripcion { 
-            width: 70%;
-            p {
-                font-size: small;
-                margin-bottom: 0px;
+        .contenedorImgBoton {
+            height: 80%;
+            background-color: mediumpurple;
+            border: 5px solid mediumpurple;
+            border-radius: 5px;
+            img {
+                height: 100%;
+                filter: invert(87%) sepia(25%) saturate(5608%) hue-rotate(1deg) brightness(106%) contrast(108%);
             }
         }
-        .itemCarrito_total { 
-            width: 20%; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    }
-    input:checked + #seccionCarrito {
-        color: steelblue;
-        opacity: 50%;
-        text-decoration: line-through;
-    }
-
-}
-
-// FOOTER: Accesos rapidos
-footer {
-    grid-area: footer;
-    background-color: map-get($myColors, c3);
-    img {
-        padding: 10px;
-        opacity: 30%;
-        max-height: 80px;
     }
 }
-
 
 
 

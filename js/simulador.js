@@ -201,13 +201,11 @@ domCompara_botonBorrar.onclick=(()=>{
 // --------------------------------------------------------------------------
 const dibujarRespuestaComparacion = ((ahorro, ProdRecomendado)=> {
 
-    console.log(ahorro, ProdRecomendado);
-
     let dom_respuestaComparacion = document.getElementById("dom_respuestaComparacion");    
     let dom_headerProdA = document.getElementById("domCompara_headerProdA");
     let dom_headerProdB = document.getElementById("domCompara_headerProdB");
 
-
+    
     // Si envio -1 reiniciar el estado del DOM (texto de respuesta y colores de titulos)
     if(ahorro == -1) {
         dom_headerProdA.className = "card-header text-center";
@@ -222,7 +220,6 @@ const dibujarRespuestaComparacion = ((ahorro, ProdRecomendado)=> {
 
     // Si hay una opcion recomendada
     } else {
-
         // Marcar de color verde en la opcion recomendada
         switch(ProdRecomendado.id) {
             case 1:
@@ -248,12 +245,13 @@ const dibujarRespuestaComparacion = ((ahorro, ProdRecomendado)=> {
 
 
 
+
 // **********************************************************************
 // CARRITO DE COMPRA
 // **********************************************************************
 
 let idCarrito = 0;
-// Recupero el carrito guardado en localStorage
+// Recupero el carrito y el id guardado en localStorage 
 let carritoArr = JSON.parse(localStorage.getItem("carrito")) || [];
 
 ejecucionCarrito();
@@ -266,7 +264,7 @@ function ejecucionCarrito() {
 
     dom_mostrarCarrito();
     agregarProductoCarrito();
-    chequearTicket();
+    // checkboxCarrito();
     borrarCarrito();
 }
 
@@ -278,9 +276,9 @@ class Productos {
     //Constuctor de cada item que cargo en el carrito
     constructor(id, nombre, precio, cantidad) {
         this.id = id;
-        this.nombre  = nombre.toLowerCase() || 0;
-        this.precio  = parseFloat(precio).toFixed(2) || 0;
-        this.cantidad = parseInt(cantidad) || 0;
+        this.nombre  = nombre || 0;
+        this.precio  = precio.toFixed(2) || 0;
+        this.cantidad = cantidad || 0;
         this.subTotal = this.precio * this.cantidad;
         this.descuento = 0;
         this.descripcionDescuentosAplicados = "";
@@ -327,16 +325,27 @@ function dom_mostrarCarrito(){
     carritoArr.forEach((producto) => {
 
         dom_seccionCarrito.innerHTML += `
-        <div class="itemCarrito d-flex" id="domCarritoContenidoItem-${producto.id}">
-            <div class="itemCarrito_check"><input value="" class="form-check-input" type="checkbox" id="domCarritoCheckbox-${producto.id}"></div>
-            <div class="itemCarrito_descripcion">
-                <strong>${producto.nombre}</strong>
-                <p>(${producto.cantidad} uni) $${producto.precio} c/u = $${producto.subTotal}</p>
-                <p>Descuentos: ${producto.descripcionDescuentosAplicados} = $${producto.descuento}</p>
-            </div>
-            <div class="itemCarrito_total"><strong>$${producto.total}</strong></div>
-        </div>
+        <tr>
+        <td><div class="itemCarrito_check"><input value="" class="form-check-input" type="checkbox" id="domCarritoCheckbox-${producto.id}"></div></td>
+        <td>
+            <p class="m-0"><strong>${producto.nombre}</strong><p>
+            <p class="m-0">${producto.cantidad} x $${producto.precio} = $${producto.subTotal}</p>
+            <p class="m-0">Descuentos: ${producto.descripcionDescuentosAplicados} = $${producto.descuento}</p>
+        </td>
+        <td><strong>$${producto.total}</strong></td>
+        </tr>
         `;
+        // dom_seccionCarrito.innerHTML += `
+        // <div class="itemCarrito d-flex" id="domCarritoContenidoItem-${producto.id}">
+        //     <div class="itemCarrito_check"><input value="" class="form-check-input" type="checkbox" id="domCarritoCheckbox-${producto.id}"></div>
+        //     <div class="itemCarrito_descripcion">
+        //         <strong>${producto.nombre}</strong>
+        //         <p>(${producto.cantidad} uni) $${producto.precio} c/u = $${producto.subTotal}</p>
+        //         <p>Descuentos: ${producto.descripcionDescuentosAplicados} = $${producto.descuento}</p>
+        //     </div>
+        //     <div class="itemCarrito_total"><strong>$${producto.total}</strong></div>
+        // </div>
+        // `;
     });
 
     // Precio total del carrito
@@ -350,34 +359,37 @@ function dom_mostrarCarrito(){
 
 function agregarProductoCarrito(){
 
-    let domCarrito_campoNombre = document.getElementById("domCarrito_campoNombre");
-    let domCarrito_campoPrecio = document.getElementById("domCarrito_campoPrecio");
-    let domCarrito_campoCantidad = document.getElementById("domCarrito_campoCantidad");
-    let domCarrito_campoDescuento1 = document.getElementById("domCarrito_campoDescuento1");
-    let domCarrito_campoDescuento2 = document.getElementById("domCarrito_campoDescuento2");
     let domCarrito_botonAgregar = document.getElementById("domCarrito_botonAgregar");
-
     
     domCarrito_botonAgregar.onclick=(()=>{
+
+        let domCarrito_campoNombre = document.getElementById("domCarrito_campoNombre").value;
+        let domCarrito_campoPrecio = parseFloat(document.getElementById("domCarrito_campoPrecio").value.replace(',','.'));
+        let domCarrito_campoCantidad = parseFloat(document.getElementById("domCarrito_campoCantidad").value.replace(',','.'));
+        let domCarrito_campoDescuento1 = document.getElementById("domCarrito_campoDescuento1").selectedIndex;
+        let domCarrito_campoDescuento2 = document.getElementById("domCarrito_campoDescuento2").selectedIndex;
         
+
         // Acumulador de numero de id
         idCarrito++;
         localStorage.setItem("idCarrito", idCarrito);
         
         // Creo un nuevo item y lo cargo al array
-        let itemProducto = new Productos(idCarrito, domCarrito_campoNombre.value, domCarrito_campoPrecio.value, domCarrito_campoCantidad.value);
+        let itemProducto = new Productos(idCarrito, domCarrito_campoNombre, domCarrito_campoPrecio, domCarrito_campoCantidad);
         carritoArr.push(itemProducto);
         
         // Le aplico los descuentos
-        itemProducto.aplicarDescuento(descuentosArr[domCarrito_campoDescuento1.selectedIndex].tipoDescuento, descuentosArr[domCarrito_campoDescuento1.selectedIndex].dto_x, descuentosArr[domCarrito_campoDescuento1.selectedIndex].dto_y);
-        itemProducto.aplicarDescuento(descuentosArr[domCarrito_campoDescuento2.selectedIndex].tipoDescuento, descuentosArr[domCarrito_campoDescuento2.selectedIndex].dto_x, descuentosArr[domCarrito_campoDescuento2.selectedIndex].dto_y);
+        itemProducto.aplicarDescuento(descuentosArr[domCarrito_campoDescuento1].tipoDescuento, descuentosArr[domCarrito_campoDescuento1].dto_x, descuentosArr[domCarrito_campoDescuento1].dto_y);
+        itemProducto.aplicarDescuento(descuentosArr[domCarrito_campoDescuento2].tipoDescuento, descuentosArr[domCarrito_campoDescuento2].dto_x, descuentosArr[domCarrito_campoDescuento2].dto_y);
         
+
+
         // Guardo en local storage
         localStorage.setItem("carrito", JSON.stringify(carritoArr));
         
-        // Ejecutar funcion para mostrar el carrito en html y mostrar mensaje item cargado
+        // Ejecutar funcion para mostrar el carrito en html
         dom_mostrarCarrito();
-        chequearTicket();
+        // checkboxCarrito();
 
         // Muestro confirmacion de item cargado al carrito
         Swal.fire({
@@ -394,27 +406,27 @@ function agregarProductoCarrito(){
 // Eventos CARRITO: Checkbox
 // --------------------------------------------------------------------------
 
-function chequearTicket(){
+function checkboxCarrito(){
 
     carritoArr.forEach((producto) => {
 
-        let domCarrito_botonAgregar = document.getElementById(`domCarritoCheckbox-${producto.id}`);
+        let domCarrito_checkbox = document.getElementById(`domCarritoCheckbox-${producto.id}`);
         let domCarrito_contenidoItem = document.getElementById(`domCarritoContenidoItem-${producto.id}`);
 
         // Marco el check segun lo guardado en el array
-        domCarrito_botonAgregar.checked = producto.checkbox;
+        domCarrito_checkbox.checked = producto.checkbox;
 
         // Aplico clase para modificar opacity
         domCarrito_contenidoItem.className = producto.checkbox ? "itemCarrito d-flex opacity-50" : "itemCarrito d-flex";
 
         // Deteccion cambio de estado checkbox
-        domCarrito_botonAgregar.onchange=(()=>{
+        domCarrito_checkbox.onchange=(()=>{
 
             // Cambio el estado en el array y guardo en el storage
-            producto.checkbox = domCarrito_botonAgregar.checked;
+            producto.checkbox = domCarrito_checkbox.checked;
             localStorage.setItem("carrito", JSON.stringify(carritoArr));
 
-            chequearTicket();
+            checkboxCarrito();
         });
 
     });
@@ -473,6 +485,8 @@ function borrarCarrito() {
 // Opcion de tomar el 2do descuento sobre el anterior
 // Mejorar diseño
 // Ayuda
+
+// idCarrito: iniciar en cero o recuperar de local storage
 
 
 

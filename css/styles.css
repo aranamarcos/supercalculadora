@@ -1,37 +1,5 @@
-/* ------------------------------------- */
-/* Mapa colores */
-/* ------------------------------------- */
-/* Clases colores */
-.fontColor_c1 {
-  color: cornflowerblue;
-}
-
-.fontColor_c2 {
-  color: salmon;
-}
-
-.fontColor_c3 {
-  color: #f8f9fa;
-}
-
-.fontColor_c4 {
-  color: black;
-}
-
-.fontColor_c5 {
-  color: lightgrey;
-}
-
-/* ------------------------------------- */
-/* Formatos generales */
-section {
-  padding-top: 80px;
-  padding-bottom: 80px;
-  min-height: 100vh;
-}
-
-img {
-  max-width: 70%;
+body {
+  background-color: #f2f2f2;
 }
 
 nav img {
@@ -40,80 +8,54 @@ nav img {
   margin-right: 10px;
 }
 
-/* ------------------------------------- */
-/* Estructura grid body */
-#estructuraBody {
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 61px auto auto auto auto 60px;
-  grid-template-areas: "header" "inicio" "ayuda" "comparar" "agregar" "carrito" "footer";
-}
-
-header {
-  grid-area: header;
-  height: 400px;
-}
-
 #seccionInicio {
-  grid-area: inicio;
-  background-color: white;
-  height: 100vh;
+  color: white;
+  padding: 90px 10px 0px;
+  background-color: mediumpurple;
 }
-
-#seccionAyuda {
-  grid-area: ayuda;
-  background-color: lightcoral;
-}
-
-#seccionComparar {
-  grid-area: comparar;
+#seccionInicio h1 {
+  padding: 5px;
+  color: black;
+  transform: rotate(-5deg);
   background-color: gold;
 }
-
-#seccionAgregar {
-  grid-area: agregar;
-  background-color: mediumaquamarine;
+#seccionInicio img {
+  max-width: 40%;
+}
+#seccionInicio p {
+  margin: 30px 5px;
+}
+#seccionInicio .divisorInicio {
+  height: 50px;
+  margin-bottom: 50px;
+  background-color: #f2f2f2;
+  border-radius: 40px 40px 0px 0px;
+  transform: translate(0px, 5px);
 }
 
-#seccionCarrito {
-  grid-area: carrito;
-  background-color: lightskyblue;
+#seccionBotones .contenedorBoton {
+  height: 70px;
+  margin: 40px;
+  background-color: #f2f2f2;
+  box-shadow: 10px 10px 20px #dadada, -10px -10px 20px #ffffff;
+  border-radius: 5px;
 }
-#seccionCarrito .itemCarrito {
-  padding-bottom: 10px;
-  padding-top: 10px;
-  border-bottom: 1px solid steelblue;
+#seccionBotones button {
+  width: 100%;
+  color: mediumpurple;
+  font-weight: bold;
+  font-size: large;
 }
-#seccionCarrito .itemCarrito .itemCarrito_check {
-  width: 10%;
-  display: flex;
-  align-items: center;
+#seccionBotones button div {
+  height: 100%;
 }
-#seccionCarrito .itemCarrito .itemCarrito_descripcion {
-  width: 70%;
+#seccionBotones button .contenedorImgBoton {
+  height: 80%;
+  background-color: mediumpurple;
+  border: 5px solid mediumpurple;
+  border-radius: 5px;
 }
-#seccionCarrito .itemCarrito .itemCarrito_descripcion p {
-  font-size: small;
-  margin-bottom: 0px;
-}
-#seccionCarrito .itemCarrito .itemCarrito_total {
-  width: 20%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#seccionCarrito input:checked + #seccionCarrito {
-  color: steelblue;
-  opacity: 50%;
-  text-decoration: line-through;
-}
-
-footer {
-  grid-area: footer;
-  background-color: #f8f9fa;
-}
-footer img {
-  padding: 10px;
-  opacity: 30%;
-  max-height: 80px;
+#seccionBotones button .contenedorImgBoton img {
+  height: 100%;
+  filter: invert(87%) sepia(25%) saturate(5608%) hue-rotate(1deg) brightness(106%) contrast(108%);
 }/*# sourceMappingURL=styles.css.map */
