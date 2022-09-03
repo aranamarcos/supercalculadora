@@ -180,20 +180,9 @@ domCompara_botonComparar.onclick=(()=>{
 let domCompara_botonBorrar = document.getElementById("domCompara_botonBorrar");
 
 domCompara_botonBorrar.onclick=(()=>{
+
+    dibujarRespuestaComparacion(-1);
     
-    // Mensaje de confirmacion
-    Swal.fire({
-        title: 'Estas seguro que queres borrar?',
-        showCancelButton: true,
-        confirmButtonText: 'Borrar',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            dibujarRespuestaComparacion(-1);
-            document.getElementById("formCompara_ProdA").reset();
-            document.getElementById("formCompara_ProdB").reset();
-            Swal.fire('Borrado', '', 'success')
-        }
-    });
 });
 
 
@@ -206,10 +195,14 @@ const dibujarRespuestaComparacion = ((ahorro, ProdRecomendado)=> {
     let dom_headerProdB = document.getElementById("domCompara_headerProdB");
 
     
-    // Si envio -1 reiniciar el estado del DOM (texto de respuesta y colores de titulos)
+    // Si envio -1 reiniciar el estado del DOM (inputs, texto de respuesta y colores de titulos)
     if(ahorro == -1) {
+        document.getElementById("formCompara_ProdA").reset();
+        document.getElementById("formCompara_ProdB").reset();
+
         dom_headerProdA.className = "card-header text-center";
         dom_headerProdB.className = "card-header text-center";
+
         dom_respuestaComparacion.innerHTML = "";
 
     // Si el ahorro es cero cualquier opcion es valida

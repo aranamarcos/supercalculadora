@@ -1,4 +1,5 @@
 body {
+  height: 100vh;
   background-color: #f2f2f2;
 }
 
@@ -10,8 +11,8 @@ nav img {
 
 #seccionInicio {
   color: white;
-  padding: 90px 10px 0px;
-  background-color: mediumpurple;
+  padding: 80px 10px 0px;
+  background: linear-gradient(135deg, mediumpurple, blueviolet, slateblue);
 }
 #seccionInicio h1 {
   padding: 5px;
@@ -23,11 +24,10 @@ nav img {
   max-width: 40%;
 }
 #seccionInicio p {
-  margin: 30px 5px;
+  margin: 20px 5px;
 }
 #seccionInicio .divisorInicio {
-  height: 50px;
-  margin-bottom: 50px;
+  height: 30px;
   background-color: #f2f2f2;
   border-radius: 40px 40px 0px 0px;
   transform: translate(0px, 5px);
@@ -35,14 +35,14 @@ nav img {
 
 #seccionBotones .contenedorBoton {
   height: 70px;
-  margin: 40px;
+  margin: 20px 40px 10px;
   background-color: #f2f2f2;
-  box-shadow: 10px 10px 20px #dadada, -10px -10px 20px #ffffff;
+  box-shadow: 5px 5px 10px #dadada, -5px -5px 10px #ffffff;
   border-radius: 5px;
 }
 #seccionBotones button {
   width: 100%;
-  color: mediumpurple;
+  color: rgb(132, 93, 209);
   font-weight: bold;
   font-size: large;
 }
@@ -51,8 +51,8 @@ nav img {
 }
 #seccionBotones button .contenedorImgBoton {
   height: 80%;
-  background-color: mediumpurple;
-  border: 5px solid mediumpurple;
+  background-color: rgb(132, 93, 209);
+  border: 5px solid rgb(132, 93, 209);
   border-radius: 5px;
 }
 #seccionBotones button .contenedorImgBoton img {
