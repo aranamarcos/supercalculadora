@@ -96,7 +96,7 @@ class Comparador {
     constructor(id, nombre, precio, cantidadPeso) {
         this.id = id;
         this.nombre = nombre;
-        this.precio  = precio.toFixed(2) || 0;
+        this.precio  = precio || 0;
         this.cantidadPeso = cantidadPeso || 0;
         this.precioMinimaUnidad = 0;
         this.cantidad = 0;
@@ -136,15 +136,15 @@ let domCompara_botonComparar = document.getElementById("domCompara_botonComparar
 // Evento click comparar productos
 domCompara_botonComparar.onclick=(()=>{
 
-    let domCompara_campoPesoA = parseFloat(document.getElementById("domCompara_campoPesoA").value.replace(',','.'));
-    let domCompara_campoPesoB = parseFloat(document.getElementById("domCompara_campoPesoB").value.replace(',','.'));
-    let domCompara_campoPrecioA = parseFloat(document.getElementById("domCompara_campoPrecioA").value.replace(',','.'));
-    let domCompara_campoPrecioB = parseFloat(document.getElementById("domCompara_campoPrecioB").value.replace(',','.'));
+    let domCompara_campoPesoA = parseFloat(document.getElementById("domCompara_campoPesoA").value).toFixed(2);
+    let domCompara_campoPesoB = parseFloat(document.getElementById("domCompara_campoPesoB").value).toFixed(2);
+    let domCompara_campoPrecioA = parseFloat(document.getElementById("domCompara_campoPrecioA").value).toFixed(2);
+    let domCompara_campoPrecioB = parseFloat(document.getElementById("domCompara_campoPrecioB").value).toFixed(2);
     let domCompara_campoDescuentoA = document.getElementById("domCompara_campoDescuentoA").selectedIndex;
     let domCompara_campoDescuentoB = document.getElementById("domCompara_campoDescuentoB").selectedIndex;
 
 
-    if(domCompara_campoPesoA && domCompara_campoPesoB && domCompara_campoPrecioA && domCompara_campoPrecioB){
+    if(domCompara_campoPesoA > 0 && domCompara_campoPesoB > 0 && domCompara_campoPrecioA > 0 && domCompara_campoPrecioB > 0){
         
         let comparaArr = [];
         let ahorroComparacion = 0;
@@ -167,11 +167,10 @@ domCompara_botonComparar.onclick=(()=>{
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'Por favor revise que todos los campos de cantidad y precio esten completos, y use solo numeros.',
+            text: 'Por favor revise los campos ingresados.',
         })
     };
 });
-
 
 
 // Eventos COMPARA: Boton borrar
@@ -195,7 +194,7 @@ const dibujarRespuestaComparacion = ((ahorro, ProdRecomendado)=> {
     let dom_headerProdB = document.getElementById("domCompara_headerProdB");
 
     
-    // Si envio -1 reiniciar el estado del DOM (inputs, texto de respuesta y colores de titulos)
+    // Si recibo -1 reiniciar el estado del DOM (inputs, texto de respuesta y colores de titulos)
     if(ahorro == -1) {
         document.getElementById("formCompara_ProdA").reset();
         document.getElementById("formCompara_ProdB").reset();
@@ -243,23 +242,6 @@ const dibujarRespuestaComparacion = ((ahorro, ProdRecomendado)=> {
 // CARRITO DE COMPRA
 // **********************************************************************
 
-let idCarrito = 0;
-// Recupero el carrito y el id guardado en localStorage 
-let carritoArr = JSON.parse(localStorage.getItem("carrito")) || [];
-
-ejecucionCarrito();
-
-
-// Ejecucion funciones carrito
-// --------------------------------------------------------------------------
-
-function ejecucionCarrito() {
-
-    dom_mostrarCarrito();
-    agregarProductoCarrito();
-    // checkboxCarrito();
-    borrarCarrito();
-}
 
 // Constructor de productos para el carrito, y calculo de descuentos
 // --------------------------------------------------------------------------
@@ -270,7 +252,7 @@ class Productos {
     constructor(id, nombre, precio, cantidad) {
         this.id = id;
         this.nombre  = nombre || 0;
-        this.precio  = precio.toFixed(2) || 0;
+        this.precio  = precio || 0;
         this.cantidad = cantidad || 0;
         this.subTotal = this.precio * this.cantidad;
         this.descuento = 0;
@@ -307,7 +289,7 @@ class Productos {
 // DOM: Mostrar el carrito en el HTML
 // --------------------------------------------------------------------------
 
-function dom_mostrarCarrito(){
+const dom_mostrarCarrito = () => {
 
     let dom_seccionCarrito = document.getElementById("dom_seccionCarrito");
     let dom_totalCarrito = document.getElementById("dom_totalCarrito");
@@ -319,79 +301,78 @@ function dom_mostrarCarrito(){
 
         dom_seccionCarrito.innerHTML += `
         <tr>
-        <td><div class="itemCarrito_check"><input value="" class="form-check-input" type="checkbox" id="domCarritoCheckbox-${producto.id}"></div></td>
-        <td>
+        <td><input value="" class="form-check-input" type="checkbox" id="domCarritoCheckbox-${producto.id}"></td>
+        <td id="domCarritoContenidoItem-${producto.id}">
             <p class="m-0"><strong>${producto.nombre}</strong><p>
             <p class="m-0">${producto.cantidad} x $${producto.precio} = $${producto.subTotal}</p>
-            <p class="m-0">Descuentos: ${producto.descripcionDescuentosAplicados} = $${producto.descuento}</p>
+            ${producto.descuento != 0 ? `<p class="m-0">Descuentos: ${producto.descripcionDescuentosAplicados} = $${producto.descuento}</p>` : ""}        
         </td>
         <td><strong>$${producto.total}</strong></td>
-        </tr>
-        `;
-        // dom_seccionCarrito.innerHTML += `
-        // <div class="itemCarrito d-flex" id="domCarritoContenidoItem-${producto.id}">
-        //     <div class="itemCarrito_check"><input value="" class="form-check-input" type="checkbox" id="domCarritoCheckbox-${producto.id}"></div>
-        //     <div class="itemCarrito_descripcion">
-        //         <strong>${producto.nombre}</strong>
-        //         <p>(${producto.cantidad} uni) $${producto.precio} c/u = $${producto.subTotal}</p>
-        //         <p>Descuentos: ${producto.descripcionDescuentosAplicados} = $${producto.descuento}</p>
-        //     </div>
-        //     <div class="itemCarrito_total"><strong>$${producto.total}</strong></div>
-        // </div>
-        // `;
-    });
+        </tr>`
+        });
 
     // Precio total del carrito
-    dom_totalCarrito.innerHTML = `$ ${carritoArr.reduce((acumulador, producto) => acumulador + producto.total, 0)}`;
+    dom_totalCarrito.innerHTML = `$ ${carritoArr.reduce((acumulador, producto) => acumulador + producto.total, 0).toFixed(2)}`;
     
 }; 
 
     
-// Eventos CARRITO: Boton agregar producto al carrito
+// Eventos CARRITO: Agregar producto al carrito
 // --------------------------------------------------------------------------
 
-function agregarProductoCarrito(){
+const agregarProductoCarrito = () => {
 
     let domCarrito_botonAgregar = document.getElementById("domCarrito_botonAgregar");
     
     domCarrito_botonAgregar.onclick=(()=>{
 
-        let domCarrito_campoNombre = document.getElementById("domCarrito_campoNombre").value;
-        let domCarrito_campoPrecio = parseFloat(document.getElementById("domCarrito_campoPrecio").value.replace(',','.'));
-        let domCarrito_campoCantidad = parseFloat(document.getElementById("domCarrito_campoCantidad").value.replace(',','.'));
+        let domCarrito_campoNombre = document.getElementById("domCarrito_campoNombre").value || "-";
+        let domCarrito_campoPrecio = parseFloat(document.getElementById("domCarrito_campoPrecio").value).toFixed(2);
+        let domCarrito_campoCantidad = parseFloat(document.getElementById("domCarrito_campoCantidad").value).toFixed(2);
         let domCarrito_campoDescuento1 = document.getElementById("domCarrito_campoDescuento1").selectedIndex;
         let domCarrito_campoDescuento2 = document.getElementById("domCarrito_campoDescuento2").selectedIndex;
+        let formAgregarAlCarrito = document.getElementById("formAgregarAlCarrito");
         
+        if(domCarrito_campoPrecio > 0 && domCarrito_campoCantidad > 0){
 
-        // Acumulador de numero de id
-        idCarrito++;
-        localStorage.setItem("idCarrito", idCarrito);
+            formAgregarAlCarrito.reset();
         
-        // Creo un nuevo item y lo cargo al array
-        let itemProducto = new Productos(idCarrito, domCarrito_campoNombre, domCarrito_campoPrecio, domCarrito_campoCantidad);
-        carritoArr.push(itemProducto);
-        
-        // Le aplico los descuentos
-        itemProducto.aplicarDescuento(descuentosArr[domCarrito_campoDescuento1].tipoDescuento, descuentosArr[domCarrito_campoDescuento1].dto_x, descuentosArr[domCarrito_campoDescuento1].dto_y);
-        itemProducto.aplicarDescuento(descuentosArr[domCarrito_campoDescuento2].tipoDescuento, descuentosArr[domCarrito_campoDescuento2].dto_x, descuentosArr[domCarrito_campoDescuento2].dto_y);
-        
+            // Acumulador de numero de id y lo almaceno en local storage
+            idCarrito++;
+            localStorage.setItem("idCarrito", idCarrito);
+            // Creo un nuevo item y lo cargo al array
+            let itemProducto = new Productos(idCarrito, domCarrito_campoNombre, domCarrito_campoPrecio, domCarrito_campoCantidad);
+            carritoArr.push(itemProducto);
+            
+            // Le aplico los descuentos
+            itemProducto.aplicarDescuento(descuentosArr[domCarrito_campoDescuento1].tipoDescuento, descuentosArr[domCarrito_campoDescuento1].dto_x, descuentosArr[domCarrito_campoDescuento1].dto_y);
+            itemProducto.aplicarDescuento(descuentosArr[domCarrito_campoDescuento2].tipoDescuento, descuentosArr[domCarrito_campoDescuento2].dto_x, descuentosArr[domCarrito_campoDescuento2].dto_y);
+            
+            // Guardo en local storage
+            localStorage.setItem("carrito", JSON.stringify(carritoArr));
+            
+            // Ejecutar funcion para mostrar el carrito en html
+            dom_mostrarCarrito();
+            checkboxCarrito();
+    
+            // Muestro confirmacion de item cargado al carrito
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: `Agregaste ${itemProducto.nombre} al carrito`,
+                showConfirmButton: false,
+                timer: 1500
+            })
 
+        } else {
+            // Muestro mensaje para que el usuario verifique los datos
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Por favor revise los campos ingresados.',
+            })
+        };
 
-        // Guardo en local storage
-        localStorage.setItem("carrito", JSON.stringify(carritoArr));
-        
-        // Ejecutar funcion para mostrar el carrito en html
-        dom_mostrarCarrito();
-        // checkboxCarrito();
-
-        // Muestro confirmacion de item cargado al carrito
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: `Agregaste ${itemProducto.nombre} al carrito`,
-            showConfirmButton: false,
-            timer: 1500
-        })
     });
 };
 
@@ -399,7 +380,7 @@ function agregarProductoCarrito(){
 // Eventos CARRITO: Checkbox
 // --------------------------------------------------------------------------
 
-function checkboxCarrito(){
+const checkboxCarrito = () => {
 
     carritoArr.forEach((producto) => {
 
@@ -408,9 +389,9 @@ function checkboxCarrito(){
 
         // Marco el check segun lo guardado en el array
         domCarrito_checkbox.checked = producto.checkbox;
-
         // Aplico clase para modificar opacity
-        domCarrito_contenidoItem.className = producto.checkbox ? "itemCarrito d-flex opacity-50" : "itemCarrito d-flex";
+        domCarrito_contenidoItem.className = producto.checkbox ? "text-danger" : "";
+
 
         // Deteccion cambio de estado checkbox
         domCarrito_checkbox.onchange=(()=>{
@@ -421,7 +402,6 @@ function checkboxCarrito(){
 
             checkboxCarrito();
         });
-
     });
 };
 
@@ -429,37 +409,53 @@ function checkboxCarrito(){
 // Eventos CARRITO: Borrar carrito
 // --------------------------------------------------------------------------
 
-function borrarCarrito() {
+const borrarCarrito = () => {
 
     let domCarrito_botonBorrar = document.getElementById("domCarrito_botonBorrar");
     
     domCarrito_botonBorrar.onclick=(()=>{
+
+        // Reviso si hay al menos un item con check
         let encontrarCheck = carritoArr.some(item => item.checkbox == true);
         
         Swal.fire({
-            title: 'Estas seguro que queres borrar?',
+            title: encontrarCheck ? 'Estas seguro que queres borrar los productos seleccionados?' : 'Estas seguro que queres borrar todo el carrito?',
             showCancelButton: true,
             confirmButtonText: 'Borrar',
         }).then((result) => {
             if (result.isConfirmed) {
+                // Si algun item tiene check borro los seleccionados, sino borro todo el carrito
+                carritoArr = encontrarCheck ? carritoArr.filter(item => item.checkbox === false) : [];
 
-                if(!encontrarCheck){
-                    carritoArr = [];
-                }else{
-                    carritoArr.forEach((producto) => {
-                        if(producto.checkbox) {
-                            carritoArr.splice(carritoArr.indexOf(producto), 1);
-                        }
-                    });
+                // Si el carrito queda vacio reinicio el idCarrito
+                if(carritoArr.length === 0) {
+                    idCarrito = 0;
+                    localStorage.setItem("idCarrito", idCarrito);
                 }
+
                 localStorage.setItem("carrito", JSON.stringify(carritoArr));
-                ejecucionCarrito();
+                dom_mostrarCarrito();
+                checkboxCarrito();
 
                 Swal.fire('Borrado', '', 'success')
             };
         });
     });
 };
+
+
+// Ejecucion principal
+// --------------------------------------------------------------------------
+
+// Recupero el carrito y el id guardado en localStorage 
+let carritoArr = JSON.parse(localStorage.getItem("carrito")) || [];
+let idCarrito = JSON.parse(localStorage.getItem("idCarrito")) || 0;
+
+dom_mostrarCarrito();
+agregarProductoCarrito();
+checkboxCarrito();
+borrarCarrito();
+
 
 
 
@@ -470,16 +466,28 @@ function borrarCarrito() {
 // Logica de comparacion - OK
 // Total de la compra - OK
 // Guardar carrito en local storage - OK
-// Crear descuentosArr personalizadas
 // Mensaje de item cargado al carrito - OK
 // Eliminar productos del carrito - OK
-// Empezar un carrito nuevo - OK
 // Tachar productos para chequear ticket - OK
-// Opcion de tomar el 2do descuento sobre el anterior
-// Mejorar diseño
-// Ayuda
+// idCarrito: reiniciar cuando borro todo el carrito - OK
+// Mejorar diseño - OK
 
-// idCarrito: iniciar en cero o recuperar de local storage
+// cuando se cierra y se va a agregar un producto, preguntar si empezar un carrito nuevo o continuar
+// Ver total en el footer
+// achicar y cambiar a color mas suave el detalle en el carrito
+// limitar los caracteres de ingreso de nombre 
+// Ver total en dolares
+// 2do descuento en la parte de comparar productos
+// Crear descuentosArr personalizadas
+// Opcion de tomar el 2do descuento sobre el anterior
+// Opcion de fijar el segundo descuento
+// Opcion de ordenar el carrito (por orden de carga, precio, o alfabeticamente)
+// Cerrar el menu de descuentos cuando se vuelve a abrir o se carga otro producto si no tiene uno fijo
+// Cambiar tipografia
+// Acomodar la version pc para que se vea bien
+// Ayuda
+// Cerrar el menu del nav al entrar a un enlace
+
 
 
 

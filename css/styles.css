@@ -58,4 +58,8 @@ nav img {
 #seccionBotones button .contenedorImgBoton img {
   height: 100%;
   filter: invert(87%) sepia(25%) saturate(5608%) hue-rotate(1deg) brightness(106%) contrast(108%);
+}
+
+#modalVerCarrito .marcarItemCarrito {
+  color: red !important;
 }/*# sourceMappingURL=styles.css.map */
