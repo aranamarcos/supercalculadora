@@ -37,7 +37,7 @@ class Descuentos {
         this.dto_x  = dto_x || 0;
         this.dto_y  = dto_y || 0;
     }
-}
+};
 
 
 // DOM: Menu desplegable de descuentos en el HTML
@@ -53,7 +53,7 @@ function dom_mostrarOpcionesDescuentos(){
             <option value="${j+1}">${cadaDescuento.descripcionExtendidaDescuento}</option>`
         });
     };
-}
+};
     
     
 // Ejecucion principal de opciones de descuentos
@@ -123,9 +123,9 @@ class Comparador {
                 this.cantidad = 2;
                 this.precioMinimaUnidad = ((2 * this.precio) - this.precio * (dto_x / 100)) / (this.cantidadPeso * 2);
                 break;
-        }
-    }
-}
+        };
+    };
+};
 
 
 // Eventos COMPARAR: Boton comparar productos y borrar
@@ -136,10 +136,10 @@ let domCompara_botonComparar = document.getElementById("domCompara_botonComparar
 // Evento click comparar productos
 domCompara_botonComparar.onclick=(()=>{
 
-    let domCompara_campoPesoA = parseFloat(document.getElementById("domCompara_campoPesoA").value).toFixed(2);
-    let domCompara_campoPesoB = parseFloat(document.getElementById("domCompara_campoPesoB").value).toFixed(2);
-    let domCompara_campoPrecioA = parseFloat(document.getElementById("domCompara_campoPrecioA").value).toFixed(2);
-    let domCompara_campoPrecioB = parseFloat(document.getElementById("domCompara_campoPrecioB").value).toFixed(2);
+    let domCompara_campoPesoA = parseFloat(document.getElementById("domCompara_campoPesoA").value);
+    let domCompara_campoPesoB = parseFloat(document.getElementById("domCompara_campoPesoB").value);
+    let domCompara_campoPrecioA = parseFloat(document.getElementById("domCompara_campoPrecioA").value);
+    let domCompara_campoPrecioB = parseFloat(document.getElementById("domCompara_campoPrecioB").value);
     let domCompara_campoDescuentoA = document.getElementById("domCompara_campoDescuentoA").selectedIndex;
     let domCompara_campoDescuentoB = document.getElementById("domCompara_campoDescuentoB").selectedIndex;
 
@@ -159,7 +159,7 @@ domCompara_botonComparar.onclick=(()=>{
 
         // Ordeno el array por el mas economico primero y calculo el ahorro
         comparaArr.sort((a,b) => a.precioMinimaUnidad - b.precioMinimaUnidad);
-        ahorroComparacion = ((comparaArr[0].cantidadPeso * comparaArr[0].cantidad) * (comparaArr[1].precioMinimaUnidad - comparaArr[0].precioMinimaUnidad))
+        ahorroComparacion = (comparaArr[0].cantidadPeso * comparaArr[0].cantidad) * (comparaArr[1].precioMinimaUnidad - comparaArr[0].precioMinimaUnidad);
         dibujarRespuestaComparacion(ahorroComparacion, comparaArr[0]);
 
     } else {
@@ -230,7 +230,7 @@ const dibujarRespuestaComparacion = ((ahorro, ProdRecomendado)=> {
         dom_respuestaComparacion.innerHTML = `
         <hr>
         <p class="text-center">La opcion mas economica es <strong>${ProdRecomendado.nombre}</strong></p>
-        <p class="text-center">Llevando ${ProdRecomendado.cantidad} paquete(s) estas ahorrando <strong>$${ahorro.toFixed(2)}</strong></p>
+        <p class="text-center">Llevando ${ProdRecomendado.cantidad} paquete(s) estas ahorrando <strong>$${Math.round(ahorro *100)/100}</strong></p>
         `;
     };    
 });
@@ -251,10 +251,10 @@ class Productos {
     //Constuctor de cada item que cargo en el carrito
     constructor(id, nombre, precio, cantidad) {
         this.id = id;
-        this.nombre  = nombre || 0;
+        this.nombre  = nombre || "-";
         this.precio  = precio || 0;
         this.cantidad = cantidad || 0;
-        this.subTotal = this.precio * this.cantidad;
+        this.subTotal = precio * cantidad;
         this.descuento = 0;
         this.descripcionDescuentosAplicados = "";
         this.total = this.subTotal
@@ -266,19 +266,19 @@ class Productos {
             case 1:
                 // Calcula los descuentos del tipo X% (ejemplo: 50%, 50% de descuento)
                 this.descuento += ((-1) * this.cantidad * this.precio * (dto_x / 100));
-                this.total = (this.cantidad * this.precio) + this.descuento;
+                this.total = ((this.cantidad * this.precio) + this.descuento);
                 this.descripcionDescuentosAplicados += "(" + dto_x + "%) ";
                 break;
             case 2:
                 // Calcula los descuentos del tipo X*Y (ejemplo: 2x1, lleva 2 paga 1)
                 this.descuento += ((-1) * Math.trunc(this.cantidad / dto_x) * (dto_x - dto_y) * this.precio);
-                this.total = (this.cantidad * this.precio) + this.descuento;
+                this.total = ((this.cantidad * this.precio) + this.descuento);
                 this.descripcionDescuentosAplicados += "(" + dto_x + "x" + dto_y + ") ";
                 break;
             case 3:
                 // Calcula los descuentos del tipo 2do al X% (ejemplo: 2do al 70%, 70% de descuento en la segunda unidad)
                 this.descuento += ((-1) * Math.trunc(this.cantidad / 2) * this.precio * (dto_x / 100));
-                this.total = (this.cantidad * this.precio) + this.descuento;
+                this.total = ((this.cantidad * this.precio) + this.descuento);
                 this.descripcionDescuentosAplicados += "(2do al " + dto_x + "%) ";
                 break;
         }
@@ -293,6 +293,8 @@ const dom_mostrarCarrito = () => {
 
     let dom_seccionCarrito = document.getElementById("dom_seccionCarrito");
     let dom_totalCarrito = document.getElementById("dom_totalCarrito");
+    let dom_footerTotalCarrito = document.getElementById("dom_footerTotalCarrito");
+    let totalCarrito = 0
     
     dom_seccionCarrito.innerHTML = "";
 
@@ -304,15 +306,17 @@ const dom_mostrarCarrito = () => {
         <td><input value="" class="form-check-input" type="checkbox" id="domCarritoCheckbox-${producto.id}"></td>
         <td id="domCarritoContenidoItem-${producto.id}">
             <p class="m-0"><strong>${producto.nombre}</strong><p>
-            <p class="m-0">${producto.cantidad} x $${producto.precio} = $${producto.subTotal}</p>
-            ${producto.descuento != 0 ? `<p class="m-0">Descuentos: ${producto.descripcionDescuentosAplicados} = $${producto.descuento}</p>` : ""}        
+            <p class="m-0 textoDetalleCarrito">${Math.round(producto.cantidad *100)/100} x $${Math.round(producto.precio *100)/100} = $${Math.round(producto.subTotal *100)/100}</p>
+            ${producto.descuento != 0 ? `<p class="m-0 textoDetalleCarrito">Descuentos: ${producto.descripcionDescuentosAplicados} = $${Math.round(producto.descuento *100)/100}</p>` : ""}        
         </td>
-        <td><strong>$${producto.total}</strong></td>
+        <td><strong>$${Math.round(producto.total *100)/100}</strong></td>
         </tr>`
         });
 
     // Precio total del carrito
-    dom_totalCarrito.innerHTML = `$ ${carritoArr.reduce((acumulador, producto) => acumulador + producto.total, 0).toFixed(2)}`;
+    totalCarrito = carritoArr.reduce((acumulador, producto) => acumulador + producto.total, 0)
+    dom_totalCarrito.innerHTML = `$ ${Math.round((totalCarrito)*100)/100}`;
+    dom_footerTotalCarrito.innerHTML = `<i class="bi bi-cart4"></i> $ ${(Math.round((carritoArr.reduce((acumulador, producto) => acumulador + producto.total, 0))*100)/100).toFixed()}`
     
 }; 
 
@@ -326,9 +330,9 @@ const agregarProductoCarrito = () => {
     
     domCarrito_botonAgregar.onclick=(()=>{
 
-        let domCarrito_campoNombre = document.getElementById("domCarrito_campoNombre").value || "-";
-        let domCarrito_campoPrecio = parseFloat(document.getElementById("domCarrito_campoPrecio").value).toFixed(2);
-        let domCarrito_campoCantidad = parseFloat(document.getElementById("domCarrito_campoCantidad").value).toFixed(2);
+        let domCarrito_campoNombre = document.getElementById("domCarrito_campoNombre").value;
+        let domCarrito_campoPrecio = parseFloat(document.getElementById("domCarrito_campoPrecio").value);
+        let domCarrito_campoCantidad = parseFloat(document.getElementById("domCarrito_campoCantidad").value);
         let domCarrito_campoDescuento1 = document.getElementById("domCarrito_campoDescuento1").selectedIndex;
         let domCarrito_campoDescuento2 = document.getElementById("domCarrito_campoDescuento2").selectedIndex;
         let formAgregarAlCarrito = document.getElementById("formAgregarAlCarrito");
@@ -340,18 +344,19 @@ const agregarProductoCarrito = () => {
             // Acumulador de numero de id y lo almaceno en local storage
             idCarrito++;
             localStorage.setItem("idCarrito", idCarrito);
+
             // Creo un nuevo item y lo cargo al array
             let itemProducto = new Productos(idCarrito, domCarrito_campoNombre, domCarrito_campoPrecio, domCarrito_campoCantidad);
             carritoArr.push(itemProducto);
             
-            // Le aplico los descuentos
+            // Le aplico los 2 descuentos
             itemProducto.aplicarDescuento(descuentosArr[domCarrito_campoDescuento1].tipoDescuento, descuentosArr[domCarrito_campoDescuento1].dto_x, descuentosArr[domCarrito_campoDescuento1].dto_y);
             itemProducto.aplicarDescuento(descuentosArr[domCarrito_campoDescuento2].tipoDescuento, descuentosArr[domCarrito_campoDescuento2].dto_x, descuentosArr[domCarrito_campoDescuento2].dto_y);
             
             // Guardo en local storage
             localStorage.setItem("carrito", JSON.stringify(carritoArr));
             
-            // Ejecutar funcion para mostrar el carrito en html
+            // Mostrar carrito en html
             dom_mostrarCarrito();
             checkboxCarrito();
     
@@ -361,7 +366,7 @@ const agregarProductoCarrito = () => {
                 icon: 'success',
                 title: `Agregaste ${itemProducto.nombre} al carrito`,
                 showConfirmButton: false,
-                timer: 1500
+                timer: 1000
             })
 
         } else {
@@ -437,27 +442,76 @@ const borrarCarrito = () => {
                 dom_mostrarCarrito();
                 checkboxCarrito();
 
-                Swal.fire('Borrado', '', 'success')
+                // Swal.fire('Borrado', '', 'success')
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: `Borrado`,
+                    showConfirmButton: false,
+                    timer: 1000
+                })
             };
         });
     });
 };
 
 
+// API Noticias
+// --------------------------------------------------------------------------
+async function obtenerNoticias() {
+    const URLnoticias = "https://newsapi.org/v2/top-headlines?sources=google-news-ar&apiKey=92e842bb69124b7cb758e43fe2f54d1d";
+    const resp = await fetch(URLnoticias);
+    const data = await resp.json();
+    console.table(data);
+}
+
+
+
 // Ejecucion principal
 // --------------------------------------------------------------------------
 
-// Recupero el carrito y el id guardado en localStorage 
+// Recupero el carrito y el id guardado en localStorage
+// let carritoArr = [];
 let carritoArr = JSON.parse(localStorage.getItem("carrito")) || [];
 let idCarrito = JSON.parse(localStorage.getItem("idCarrito")) || 0;
+
+// Si se recargo la pagina y el carrito tenia productos, pregunto si quiere iniciar un nuevo carrito o continuar con el anterior
+if(carritoArr.length > 0) {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: true
+      })
+    
+      swalWithBootstrapButtons.fire({
+        title: 'Que queres hacer con tu carrito?',
+        text: "Tenes productos en tu carrito, queres continuar con este, o borrarlo e iniciar uno nuevo?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Continuar con mi carrito',
+        cancelButtonText: 'Borrar e iniciar uno nuevo',
+        reverseButtons: true
+      }).then((result) => {
+        if (!result.isConfirmed) {
+            carritoArr = [];
+            localStorage.setItem("carrito", JSON.stringify(carritoArr));
+            idCarrito = 0;
+            localStorage.setItem("idCarrito", idCarrito);
+            dom_mostrarCarrito();
+        }
+      })
+};
 
 dom_mostrarCarrito();
 agregarProductoCarrito();
 checkboxCarrito();
 borrarCarrito();
+obtenerNoticias();
 
 
-
+// Use math.round(numero *100)/100 en vez de toFixed() para que no me ponga por default decimales aunque no los tenga (Ej 5.00 en vez de 5)
 
 // ---------------------------------
 // PENDIENTES
@@ -471,12 +525,14 @@ borrarCarrito();
 // Tachar productos para chequear ticket - OK
 // idCarrito: reiniciar cuando borro todo el carrito - OK
 // Mejorar diseño - OK
+// Ver decimales, que no aparezca por ej cantidad 5.00, sino 5. - OK
+// cuando se cierra y se va a agregar un producto, preguntar si empezar un carrito nuevo o continuar - OK
+// Ver total en el footer - OK
+// Achicar y cambiar a color mas suave el detalle en el carrito - OK
+// Si no le pongo nombre en cargar producto que hace, le pone un guion, otra cosa, o nada - OK
+// limitar los caracteres de ingreso de nombre (20 caracteres) - OK 
 
-// cuando se cierra y se va a agregar un producto, preguntar si empezar un carrito nuevo o continuar
-// Ver total en el footer
-// achicar y cambiar a color mas suave el detalle en el carrito
-// limitar los caracteres de ingreso de nombre 
-// Ver total en dolares
+// Ver total en dolares o publicar noticias con API
 // 2do descuento en la parte de comparar productos
 // Crear descuentosArr personalizadas
 // Opcion de tomar el 2do descuento sobre el anterior
@@ -487,6 +543,8 @@ borrarCarrito();
 // Acomodar la version pc para que se vea bien
 // Ayuda
 // Cerrar el menu del nav al entrar a un enlace
+// Modificar un producto que esta en el carrito
+// Ordenar codigo. Las variables globales van arriba
 
 
 

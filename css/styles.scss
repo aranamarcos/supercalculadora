@@ -1,12 +1,12 @@
 
 body {
     height: 100vh;
+    width: 100%;
     background-color: #f2f2f2;
 }
 
 nav img {
     height: 35px;
-    width: auto;
     margin-right: 10px;
 }
 
@@ -65,8 +65,30 @@ nav img {
     }
 }
 
+#seccionNoticias {
+    margin-top: 20px;
+    background-color: rgb(132, 93, 209);
+    img {
+        width: 50px;
+    };
+}
+
 #modalVerCarrito {
-    .marcarItemCarrito {
-            color: red!important;
-        }
+    .textoDetalleCarrito {
+        color: grey;
+        font-size: small;
+    }
+}
+
+footer {
+    position:fixed;
+    left:0px;
+    bottom:0px;
+    width:100%;
+    background-color: #f2f2f2;
+    p {
+        margin: 5px 10px 0px 0px;
+        color: rgb(132, 93, 209);
+        font-weight: bold;
+    }
 }
