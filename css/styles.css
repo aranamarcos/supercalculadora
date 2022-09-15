@@ -1,7 +1,10 @@
+* {
+  Margin: 0;
+  Padding: 0;
+}
+
 body {
-  height: 100vh;
   width: 100%;
-  background-color: #f2f2f2;
 }
 
 nav img {
@@ -10,39 +13,46 @@ nav img {
 }
 
 #seccionInicio {
-  color: white;
-  padding: 80px 10px 0px;
-  background: linear-gradient(135deg, mediumpurple, blueviolet, slateblue);
+  color: #f2f2f2;
+  padding-top: 80px;
+  background-color: #00a2e7;
 }
 #seccionInicio h1 {
   padding: 5px;
-  color: black;
+  color: white;
   transform: rotate(-5deg);
-  background-color: gold;
+  background-color: black;
 }
 #seccionInicio img {
-  max-width: 40%;
+  max-width: 30%;
 }
 #seccionInicio p {
   margin: 20px 5px;
 }
 #seccionInicio .divisorInicio {
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
   height: 30px;
   background-color: #f2f2f2;
   border-radius: 40px 40px 0px 0px;
-  transform: translate(0px, 5px);
+  transform: translate(0px, 1px);
 }
 
+#seccionBotones {
+  padding: 10px;
+  background-color: #f2f2f2;
+}
 #seccionBotones .contenedorBoton {
   height: 70px;
-  margin: 20px 40px 10px;
+  margin: 5px 40px 20px;
   background-color: #f2f2f2;
   box-shadow: 5px 5px 10px #dadada, -5px -5px 10px #ffffff;
   border-radius: 5px;
 }
 #seccionBotones button {
   width: 100%;
-  color: rgb(132, 93, 209);
+  color: black;
   font-weight: bold;
   font-size: large;
 }
@@ -50,22 +60,43 @@ nav img {
   height: 100%;
 }
 #seccionBotones button .contenedorImgBoton {
+  margin-left: 5px;
   height: 80%;
-  background-color: rgb(132, 93, 209);
-  border: 5px solid rgb(132, 93, 209);
+  background-color: #00a2e7;
+  border: 5px solid #00a2e7;
   border-radius: 5px;
 }
 #seccionBotones button .contenedorImgBoton img {
   height: 100%;
-  filter: invert(87%) sepia(25%) saturate(5608%) hue-rotate(1deg) brightness(106%) contrast(108%);
+  filter: invert(98%) sepia(2%) saturate(8%) hue-rotate(5deg) brightness(102%) contrast(105%);
 }
 
 #seccionNoticias {
-  margin-top: 20px;
-  background-color: rgb(132, 93, 209);
+  padding-top: 25px;
+  background-color: #f2f2f2;
 }
-#seccionNoticias img {
-  width: 50px;
+#seccionNoticias .card {
+  margin: auto 10px 45px;
+  color: #f2f2f2;
+  height: 300px;
+  background: grey !important;
+  border: none !important;
+}
+#seccionNoticias .card img {
+  width: 80%;
+  margin: 50% auto;
+}
+#seccionNoticias .card h5 {
+  font-size: medium;
+}
+#seccionNoticias .card p {
+  font-size: small;
+}
+#seccionNoticias .carousel-item {
+  margin-bottom: 32px;
+}
+#seccionNoticias .noticia {
+  height: 300px;
 }
 
 #modalVerCarrito .textoDetalleCarrito {
@@ -78,10 +109,13 @@ footer {
   left: 0px;
   bottom: 0px;
   width: 100%;
-  background-color: #f2f2f2;
+  background-color: #00a2e7;
+  background-color: #EB1B94;
 }
 footer p {
-  margin: 5px 10px 0px 0px;
-  color: rgb(132, 93, 209);
+  font-size: x-large;
+  margin: 0px 10px 0px 0px;
+  color: #00a2e7;
+  color: white;
   font-weight: bold;
 }/*# sourceMappingURL=styles.css.map */

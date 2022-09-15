@@ -1,8 +1,19 @@
+* {
+    Margin: 0;
+    Padding: 0;
+}    
+
+$myColors: (
+    c1: #f2f2f2,
+    c2: #00a2e7,
+    c3: grey,
+    c4: black,
+    c5: white,
+    c6: #EB1B94
+);
 
 body {
-    height: 100vh;
     width: 100%;
-    background-color: #f2f2f2;
 }
 
 nav img {
@@ -12,70 +23,92 @@ nav img {
 
 
 #seccionInicio {
-    color: white;
-    padding: 80px 10px 0px;
-    background: linear-gradient(135deg, mediumpurple, blueviolet, slateblue);
+    color: map-get($myColors, c1);
+    padding-top: 80px;
+    background-color: map-get($myColors, c2);
     h1 {
         padding: 5px;
-        color: black;
+        color: map-get($myColors, c5);
         transform: rotate(-5deg);
-        background-color: gold;
+        background-color: map-get($myColors, c4);
     }
     img {
-        max-width: 40%;
+        max-width: 30%;
     }
     p {
         margin: 20px 5px;
     }
     .divisorInicio {
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
         height: 30px;
-        background-color: #f2f2f2;
+        background-color: map-get($myColors, c1);
         border-radius: 40px 40px 0px 0px;
-        transform: translate(0px, 5px);
+        transform: translate(0px, 1px);
     }
 }
 
 #seccionBotones {
+    padding: 10px;
+    background-color: map-get($myColors, c1);
     .contenedorBoton {
         height: 70px;
-        margin: 20px 40px 10px;
-        background-color: #f2f2f2;
+        margin: 5px 40px 20px;
+        background-color: map-get($myColors, c1);
         box-shadow:  5px 5px 10px #dadada,
         -5px -5px 10px #ffffff;
         border-radius: 5px;
     }
     button {
         width: 100%;
-        color: rgb(132, 93, 209);
+        color: map-get($myColors, c4);
         font-weight: bold;
         font-size: large;
         div {
             height: 100%;
         }
         .contenedorImgBoton {
+            margin-left: 5px;
             height: 80%;
-            background-color: rgb(132, 93, 209);
-            border: 5px solid rgb(132, 93, 209);
+            background-color: map-get($myColors, c2);
+            border: 5px solid map-get($myColors, c2);
             border-radius: 5px;
             img {
                 height: 100%;
-                filter: invert(87%) sepia(25%) saturate(5608%) hue-rotate(1deg) brightness(106%) contrast(108%);
+                filter: invert(98%) sepia(2%) saturate(8%) hue-rotate(5deg) brightness(102%) contrast(105%);
             }
         }
     }
 }
 
 #seccionNoticias {
-    margin-top: 20px;
-    background-color: rgb(132, 93, 209);
-    img {
-        width: 50px;
-    };
+    padding-top: 25px;
+    background-color: map-get($myColors, c1);
+    .card{
+        margin: auto 10px 45px;
+        color: map-get($myColors, c1);
+        height: 300px;
+        background: map-get($myColors, c3)!important;
+        border: none!important;
+        img {
+            width: 80%;
+            margin: 50% auto;
+        };
+        h5 {font-size: medium};
+        p {font-size: small;}
+    }
+    .carousel-item {
+        margin-bottom: 32px;
+    }
+    .noticia {
+        height: 300px;
+    }
 }
 
 #modalVerCarrito {
     .textoDetalleCarrito {
-        color: grey;
+        color: map-get($myColors, c3);
         font-size: small;
     }
 }
@@ -85,10 +118,13 @@ footer {
     left:0px;
     bottom:0px;
     width:100%;
-    background-color: #f2f2f2;
-    p {
-        margin: 5px 10px 0px 0px;
-        color: rgb(132, 93, 209);
+    background-color: map-get($myColors, c2);
+    background-color: map-get($myColors, c6);
+    p { 
+        font-size: x-large;
+        margin: 0px 10px 0px 0px;
+        color: map-get($myColors, c2);
+        color: map-get($myColors, c5);
         font-weight: bold;
     }
 }

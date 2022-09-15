@@ -1,9 +1,36 @@
-// **********************************************************************
-// OPCIONES DE DESCUENTOS
-// **********************************************************************
+
+// Estructura del JS
+
+// DECLARACION - variables globales
+// CONSTRUCTOR - opciones de descuento
+// CONSTRUCTOR - productos para el carrito
+// CONSTRUCTOR - comparacion de productos
+// DOM - menu desplegable de descuentos
+// DOM - mostrar el carrito
+// DOM - mostrar noticias
+// DOM - respuesta de la comparacion
+// EVENTOS - comparar productos
+// EVENTOS - borrar datos del modal comparacion
+// EVENTOS - agregar producto al carrito
+// EVENTOS - borrar carrito
+// EVENTOS - seleccionar item del carrito con checkbox
+// API - noticias
+// EJECUCION principal
 
 
-// Constructor de opciones de descuento
+
+// DECLARACION - variables globales
+// --------------------------------------------------------------------------
+
+// Recupero el carrito y el id guardado en localStorage
+let carritoArr = JSON.parse(localStorage.getItem("carrito")) || [];
+let idCarrito = JSON.parse(localStorage.getItem("idCarrito")) || 0;
+
+let descuentosArr = [];
+let noticiasArr = [];
+
+
+// CONSTRUCTOR - opciones de descuento
 // --------------------------------------------------------------------------
 
 class Descuentos {
@@ -40,54 +67,50 @@ class Descuentos {
 };
 
 
-// DOM: Menu desplegable de descuentos en el HTML
+// CONSTRUCTOR - productos para el carrito
 // --------------------------------------------------------------------------
 
-function dom_mostrarOpcionesDescuentos(){
-    
-    let dom_menuDescuentos = document.getElementsByClassName("dom_menuDescuentos");
-    
-    for(let i = 0; i < dom_menuDescuentos.length; i++) {
-        descuentosArr.forEach((cadaDescuento, j) => {
-            dom_menuDescuentos[i].innerHTML += `
-            <option value="${j+1}">${cadaDescuento.descripcionExtendidaDescuento}</option>`
-        });
-    };
-};
-    
-    
-// Ejecucion principal de opciones de descuentos
-// --------------------------------------------------------------------------
-    
-let descuentosArr = [];
+class Productos {
 
-// Creacion de descuentos por default
-descuentosArr.push(new Descuentos(0, 0, 0)); // sin descuento
-descuentosArr.push(new Descuentos(1, 10, 0)); // 10% 
-descuentosArr.push(new Descuentos(1, 20, 0)); // 20%
-descuentosArr.push(new Descuentos(1, 30, 0)); // 30%
-descuentosArr.push(new Descuentos(2, 2, 1)); // 2x1
-descuentosArr.push(new Descuentos(2, 3, 2)); // 3x2
-descuentosArr.push(new Descuentos(2, 4, 3)); // 4x3
-descuentosArr.push(new Descuentos(3, 80, 0)); // 2da al 80%
-descuentosArr.push(new Descuentos(3, 70, 0)); // 2da al 70%
-descuentosArr.push(new Descuentos(3, 50, 0)); // 2da al 50%
+    //Constuctor de cada item que cargo en el carrito
+    constructor(id, nombre, precio, cantidad) {
+        this.id = id;
+        this.nombre  = nombre || "-";
+        this.precio  = precio || 0;
+        this.cantidad = cantidad || 0;
+        this.subTotal = precio * cantidad;
+        this.descuento = 0;
+        this.descripcionDescuentosAplicados = "";
+        this.total = this.subTotal
+        this.checkbox = false;
+    }
 
-// Le asigno un numero a cada item del array descuentosArr para usarlo como numero de opcion a seleccionar
-descuentosArr.forEach((cadaDescuento, i) => cadaDescuento.nroOpcionDescuento = i );
-
-// Muestro los descuentos en el html
-dom_mostrarOpcionesDescuentos();
-
-
-
-
-// **********************************************************************
-// COMPARADOR DE PRODUCTOS
-// **********************************************************************
+    aplicarDescuento(tipoDescuento, dto_x, dto_y){
+        switch(tipoDescuento) {
+            case 1:
+                // Calcula los descuentos del tipo X% (ejemplo: 50%, 50% de descuento)
+                this.descuento += ((-1) * this.cantidad * this.precio * (dto_x / 100));
+                this.total = ((this.cantidad * this.precio) + this.descuento);
+                this.descripcionDescuentosAplicados += "(" + dto_x + "%) ";
+                break;
+            case 2:
+                // Calcula los descuentos del tipo X*Y (ejemplo: 2x1, lleva 2 paga 1)
+                this.descuento += ((-1) * Math.trunc(this.cantidad / dto_x) * (dto_x - dto_y) * this.precio);
+                this.total = ((this.cantidad * this.precio) + this.descuento);
+                this.descripcionDescuentosAplicados += "(" + dto_x + "x" + dto_y + ") ";
+                break;
+            case 3:
+                // Calcula los descuentos del tipo 2do al X% (ejemplo: 2do al 70%, 70% de descuento en la segunda unidad)
+                this.descuento += ((-1) * Math.trunc(this.cantidad / 2) * this.precio * (dto_x / 100));
+                this.total = ((this.cantidad * this.precio) + this.descuento);
+                this.descripcionDescuentosAplicados += "(2do al " + dto_x + "%) ";
+                break;
+        }
+    }
+}
 
 
-// Constructor de comparacion de productos
+// CONSTRUCTOR - comparacion de productos
 // --------------------------------------------------------------------------
 
 class Comparador {
@@ -128,64 +151,87 @@ class Comparador {
 };
 
 
-// Eventos COMPARAR: Boton comparar productos y borrar
+// DOM - menu desplegable de descuentos
 // --------------------------------------------------------------------------
 
-let domCompara_botonComparar = document.getElementById("domCompara_botonComparar");
-
-// Evento click comparar productos
-domCompara_botonComparar.onclick=(()=>{
-
-    let domCompara_campoPesoA = parseFloat(document.getElementById("domCompara_campoPesoA").value);
-    let domCompara_campoPesoB = parseFloat(document.getElementById("domCompara_campoPesoB").value);
-    let domCompara_campoPrecioA = parseFloat(document.getElementById("domCompara_campoPrecioA").value);
-    let domCompara_campoPrecioB = parseFloat(document.getElementById("domCompara_campoPrecioB").value);
-    let domCompara_campoDescuentoA = document.getElementById("domCompara_campoDescuentoA").selectedIndex;
-    let domCompara_campoDescuentoB = document.getElementById("domCompara_campoDescuentoB").selectedIndex;
-
-
-    if(domCompara_campoPesoA > 0 && domCompara_campoPesoB > 0 && domCompara_campoPrecioA > 0 && domCompara_campoPrecioB > 0){
-        
-        let comparaArr = [];
-        let ahorroComparacion = 0;
-        
-        // Creo un nuevo item por cada opcion y los cargo en el array comparaArr
-        comparaArr.push(new Comparador(1, "Producto A", domCompara_campoPrecioA, domCompara_campoPesoA));
-        comparaArr.push(new Comparador(2, "Producto B", domCompara_campoPrecioB, domCompara_campoPesoB));
-        
-        // Calculo el precio de la unidad minima para cada producto
-        comparaArr[0].precioMinimaUni(descuentosArr[domCompara_campoDescuentoA].tipoDescuento, descuentosArr[domCompara_campoDescuentoA].dto_x, descuentosArr[domCompara_campoDescuentoA].dto_y);
-        comparaArr[1].precioMinimaUni(descuentosArr[domCompara_campoDescuentoB].tipoDescuento, descuentosArr[domCompara_campoDescuentoB].dto_x, descuentosArr[domCompara_campoDescuentoB].dto_y);
-
-        // Ordeno el array por el mas economico primero y calculo el ahorro
-        comparaArr.sort((a,b) => a.precioMinimaUnidad - b.precioMinimaUnidad);
-        ahorroComparacion = (comparaArr[0].cantidadPeso * comparaArr[0].cantidad) * (comparaArr[1].precioMinimaUnidad - comparaArr[0].precioMinimaUnidad);
-        dibujarRespuestaComparacion(ahorroComparacion, comparaArr[0]);
-
-    } else {
-        // Muestro mensaje para que el usuario verifique los datos
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Por favor revise los campos ingresados.',
-        })
-    };
-});
-
-
-// Eventos COMPARA: Boton borrar
-// --------------------------------------------------------------------------
-
-let domCompara_botonBorrar = document.getElementById("domCompara_botonBorrar");
-
-domCompara_botonBorrar.onclick=(()=>{
-
-    dibujarRespuestaComparacion(-1);
+const dom_mostrarOpcionesDescuentos = () => {
     
-});
+    let dom_menuDescuentos = document.getElementsByClassName("dom_menuDescuentos");
+    
+    for(let i = 0; i < dom_menuDescuentos.length; i++) {
+        descuentosArr.forEach((cadaDescuento, j) => {
+            dom_menuDescuentos[i].innerHTML += `
+            <option value="${j+1}">${cadaDescuento.descripcionExtendidaDescuento}</option>`
+        });
+    };
+};
 
 
-// Dibujar respuesta de comparacion
+// DOM - mostrar el carrito
+// --------------------------------------------------------------------------
+
+const dom_mostrarCarrito = () => {
+
+    let dom_seccionCarrito = document.getElementById("dom_seccionCarrito");
+    let dom_totalCarrito = document.getElementById("dom_totalCarrito");
+    let dom_footerTotalCarrito = document.getElementById("dom_footerTotalCarrito");
+    let totalCarrito = 0
+    
+    dom_seccionCarrito.innerHTML = "";
+
+    // Cada item del carrito
+    carritoArr.forEach((producto) => {
+
+        dom_seccionCarrito.innerHTML += `
+        <tr>
+        <td><input value="" class="form-check-input" type="checkbox" id="domCarritoCheckbox-${producto.id}"></td>
+        <td id="domCarritoContenidoItem-${producto.id}">
+            <p class="m-0"><strong>${producto.nombre}</strong><p>
+            <p class="m-0 textoDetalleCarrito">${Math.round(producto.cantidad *100)/100} x $${Math.round(producto.precio *100)/100} = $${Math.round(producto.subTotal *100)/100}</p>
+            ${producto.descuento != 0 ? `<p class="m-0 textoDetalleCarrito">Descuentos: ${producto.descripcionDescuentosAplicados} = $${Math.round(producto.descuento *100)/100}</p>` : ""}        
+        </td>
+        <td><strong>$${Math.round(producto.total *100)/100}</strong></td>
+        </tr>`
+        });
+
+    // Precio total del carrito
+    totalCarrito = carritoArr.reduce((acumulador, producto) => acumulador + producto.total, 0)
+    dom_totalCarrito.innerHTML = `$ ${Math.round((totalCarrito)*100)/100}`;
+    dom_footerTotalCarrito.innerHTML = `<i class="bi bi-cart4"></i> $ ${(Math.round((carritoArr.reduce((acumulador, producto) => acumulador + producto.total, 0))*100)/100).toFixed()}`
+};
+
+
+// DOM - mostrar noticias
+// --------------------------------------------------------------------------
+
+const dom_mostrarNoticias = () => {
+
+    let dom_carrouselNoticias = document.getElementById("dom_carrouselNoticias");
+    let dom_carrouselNoticias_button = document.getElementById("dom_carrouselNoticias_button");
+
+    noticiasArr.forEach((noticia, index) => {
+
+        dom_carrouselNoticias.innerHTML += `
+        <div class="carousel-item ${index == 0 ? "active" : ""}">
+            <div class="card">
+                <div class="row g-0">
+                    <div class="col-4 d-flex justify-content-center align-items-center noticia">
+                        <img src="${noticia.urlToImage}" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-8 d-flex align-items-center noticia">
+                        <div class="card-body">
+                            <h5 class="card-title">${noticia.title}</h5>
+                            <p class="card-text">${noticia.description}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`
+    }); 
+};
+
+
+// DOM - respuesta de la comparacion
 // --------------------------------------------------------------------------
 const dibujarRespuestaComparacion = ((ahorro, ProdRecomendado)=> {
 
@@ -236,92 +282,64 @@ const dibujarRespuestaComparacion = ((ahorro, ProdRecomendado)=> {
 });
 
 
-
-
-// **********************************************************************
-// CARRITO DE COMPRA
-// **********************************************************************
-
-
-// Constructor de productos para el carrito, y calculo de descuentos
+// EVENTOS - comparar productos
 // --------------------------------------------------------------------------
 
-class Productos {
+let domCompara_botonComparar = document.getElementById("domCompara_botonComparar");
 
-    //Constuctor de cada item que cargo en el carrito
-    constructor(id, nombre, precio, cantidad) {
-        this.id = id;
-        this.nombre  = nombre || "-";
-        this.precio  = precio || 0;
-        this.cantidad = cantidad || 0;
-        this.subTotal = precio * cantidad;
-        this.descuento = 0;
-        this.descripcionDescuentosAplicados = "";
-        this.total = this.subTotal
-        this.checkbox = false;
-    }
+// Evento click comparar productos
+domCompara_botonComparar.onclick=(()=>{
 
-    aplicarDescuento(tipoDescuento, dto_x, dto_y){
-        switch(tipoDescuento) {
-            case 1:
-                // Calcula los descuentos del tipo X% (ejemplo: 50%, 50% de descuento)
-                this.descuento += ((-1) * this.cantidad * this.precio * (dto_x / 100));
-                this.total = ((this.cantidad * this.precio) + this.descuento);
-                this.descripcionDescuentosAplicados += "(" + dto_x + "%) ";
-                break;
-            case 2:
-                // Calcula los descuentos del tipo X*Y (ejemplo: 2x1, lleva 2 paga 1)
-                this.descuento += ((-1) * Math.trunc(this.cantidad / dto_x) * (dto_x - dto_y) * this.precio);
-                this.total = ((this.cantidad * this.precio) + this.descuento);
-                this.descripcionDescuentosAplicados += "(" + dto_x + "x" + dto_y + ") ";
-                break;
-            case 3:
-                // Calcula los descuentos del tipo 2do al X% (ejemplo: 2do al 70%, 70% de descuento en la segunda unidad)
-                this.descuento += ((-1) * Math.trunc(this.cantidad / 2) * this.precio * (dto_x / 100));
-                this.total = ((this.cantidad * this.precio) + this.descuento);
-                this.descripcionDescuentosAplicados += "(2do al " + dto_x + "%) ";
-                break;
-        }
-    }
-}
+    let domCompara_campoPesoA = parseFloat(document.getElementById("domCompara_campoPesoA").value);
+    let domCompara_campoPesoB = parseFloat(document.getElementById("domCompara_campoPesoB").value);
+    let domCompara_campoPrecioA = parseFloat(document.getElementById("domCompara_campoPrecioA").value);
+    let domCompara_campoPrecioB = parseFloat(document.getElementById("domCompara_campoPrecioB").value);
+    let domCompara_campoDescuentoA = document.getElementById("domCompara_campoDescuentoA").selectedIndex;
+    let domCompara_campoDescuentoB = document.getElementById("domCompara_campoDescuentoB").selectedIndex;
 
 
-// DOM: Mostrar el carrito en el HTML
+    if(domCompara_campoPesoA > 0 && domCompara_campoPesoB > 0 && domCompara_campoPrecioA > 0 && domCompara_campoPrecioB > 0){
+        
+        let comparaArr = [];
+        let ahorroComparacion = 0;
+        
+        // Creo un nuevo item por cada opcion y los cargo en el array comparaArr
+        comparaArr.push(new Comparador(1, "Producto A", domCompara_campoPrecioA, domCompara_campoPesoA));
+        comparaArr.push(new Comparador(2, "Producto B", domCompara_campoPrecioB, domCompara_campoPesoB));
+        
+        // Calculo el precio de la unidad minima para cada producto
+        comparaArr[0].precioMinimaUni(descuentosArr[domCompara_campoDescuentoA].tipoDescuento, descuentosArr[domCompara_campoDescuentoA].dto_x, descuentosArr[domCompara_campoDescuentoA].dto_y);
+        comparaArr[1].precioMinimaUni(descuentosArr[domCompara_campoDescuentoB].tipoDescuento, descuentosArr[domCompara_campoDescuentoB].dto_x, descuentosArr[domCompara_campoDescuentoB].dto_y);
+
+        // Ordeno el array por el mas economico primero y calculo el ahorro
+        comparaArr.sort((a,b) => a.precioMinimaUnidad - b.precioMinimaUnidad);
+        ahorroComparacion = (comparaArr[0].cantidadPeso * comparaArr[0].cantidad) * (comparaArr[1].precioMinimaUnidad - comparaArr[0].precioMinimaUnidad);
+        dibujarRespuestaComparacion(ahorroComparacion, comparaArr[0]);
+
+    } else {
+        // Muestro mensaje para que el usuario verifique los datos
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Por favor revise los campos ingresados.',
+        })
+    };
+});
+
+
+// EVENTOS - borrar datos del modal comparacion
 // --------------------------------------------------------------------------
 
-const dom_mostrarCarrito = () => {
+let domCompara_botonBorrar = document.getElementById("domCompara_botonBorrar");
 
-    let dom_seccionCarrito = document.getElementById("dom_seccionCarrito");
-    let dom_totalCarrito = document.getElementById("dom_totalCarrito");
-    let dom_footerTotalCarrito = document.getElementById("dom_footerTotalCarrito");
-    let totalCarrito = 0
+domCompara_botonBorrar.onclick=(()=>{
+
+    dibujarRespuestaComparacion(-1);
     
-    dom_seccionCarrito.innerHTML = "";
+});
 
-    // Cada item del carrito
-    carritoArr.forEach((producto) => {
 
-        dom_seccionCarrito.innerHTML += `
-        <tr>
-        <td><input value="" class="form-check-input" type="checkbox" id="domCarritoCheckbox-${producto.id}"></td>
-        <td id="domCarritoContenidoItem-${producto.id}">
-            <p class="m-0"><strong>${producto.nombre}</strong><p>
-            <p class="m-0 textoDetalleCarrito">${Math.round(producto.cantidad *100)/100} x $${Math.round(producto.precio *100)/100} = $${Math.round(producto.subTotal *100)/100}</p>
-            ${producto.descuento != 0 ? `<p class="m-0 textoDetalleCarrito">Descuentos: ${producto.descripcionDescuentosAplicados} = $${Math.round(producto.descuento *100)/100}</p>` : ""}        
-        </td>
-        <td><strong>$${Math.round(producto.total *100)/100}</strong></td>
-        </tr>`
-        });
-
-    // Precio total del carrito
-    totalCarrito = carritoArr.reduce((acumulador, producto) => acumulador + producto.total, 0)
-    dom_totalCarrito.innerHTML = `$ ${Math.round((totalCarrito)*100)/100}`;
-    dom_footerTotalCarrito.innerHTML = `<i class="bi bi-cart4"></i> $ ${(Math.round((carritoArr.reduce((acumulador, producto) => acumulador + producto.total, 0))*100)/100).toFixed()}`
-    
-}; 
-
-    
-// Eventos CARRITO: Agregar producto al carrito
+// EVENTOS - agregar producto al carrito
 // --------------------------------------------------------------------------
 
 const agregarProductoCarrito = () => {
@@ -382,36 +400,7 @@ const agregarProductoCarrito = () => {
 };
 
 
-// Eventos CARRITO: Checkbox
-// --------------------------------------------------------------------------
-
-const checkboxCarrito = () => {
-
-    carritoArr.forEach((producto) => {
-
-        let domCarrito_checkbox = document.getElementById(`domCarritoCheckbox-${producto.id}`);
-        let domCarrito_contenidoItem = document.getElementById(`domCarritoContenidoItem-${producto.id}`);
-
-        // Marco el check segun lo guardado en el array
-        domCarrito_checkbox.checked = producto.checkbox;
-        // Aplico clase para modificar opacity
-        domCarrito_contenidoItem.className = producto.checkbox ? "text-danger" : "";
-
-
-        // Deteccion cambio de estado checkbox
-        domCarrito_checkbox.onchange=(()=>{
-
-            // Cambio el estado en el array y guardo en el storage
-            producto.checkbox = domCarrito_checkbox.checked;
-            localStorage.setItem("carrito", JSON.stringify(carritoArr));
-
-            checkboxCarrito();
-        });
-    });
-};
-
-
-// Eventos CARRITO: Borrar carrito
+// EVENTOS - borrar carrito
 // --------------------------------------------------------------------------
 
 const borrarCarrito = () => {
@@ -442,7 +431,6 @@ const borrarCarrito = () => {
                 dom_mostrarCarrito();
                 checkboxCarrito();
 
-                // Swal.fire('Borrado', '', 'success')
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
@@ -456,24 +444,61 @@ const borrarCarrito = () => {
 };
 
 
-// API Noticias
+// EVENTOS - seleccionar item del carrito con checkbox
 // --------------------------------------------------------------------------
+
+const checkboxCarrito = () => {
+
+    carritoArr.forEach((producto) => {
+
+        let domCarrito_checkbox = document.getElementById(`domCarritoCheckbox-${producto.id}`);
+        let domCarrito_contenidoItem = document.getElementById(`domCarritoContenidoItem-${producto.id}`);
+
+        // Marco el check segun lo guardado en el array
+        domCarrito_checkbox.checked = producto.checkbox;
+        // Aplico clase para modificar opacity
+        domCarrito_contenidoItem.className = producto.checkbox ? "text-danger" : "";
+
+
+        // Deteccion cambio de estado checkbox
+        domCarrito_checkbox.onchange=(()=>{
+
+            // Cambio el estado en el array y guardo en el storage
+            producto.checkbox = domCarrito_checkbox.checked;
+            localStorage.setItem("carrito", JSON.stringify(carritoArr));
+
+            checkboxCarrito();
+        });
+    });
+};
+
+
+// API - noticias
+// --------------------------------------------------------------------------
+
 async function obtenerNoticias() {
     const URLnoticias = "https://newsapi.org/v2/top-headlines?sources=google-news-ar&apiKey=92e842bb69124b7cb758e43fe2f54d1d";
     const resp = await fetch(URLnoticias);
     const data = await resp.json();
-    console.table(data);
+    noticiasArr = data.articles;
+    dom_mostrarNoticias();
 }
 
+// Lo mismo pero usando fetch
+
+    // function obtenerNoticias() {
+    //     const URLnoticias = "https://newsapi.org/v2/top-headlines?sources=google-news-ar&apiKey=92e842bb69124b7cb758e43fe2f54d1d";
+    //     fetch(URLnoticias)
+    //         .then(resultado => resultado.json())
+    //         .then(noticias => {
+    //             noticiasArr = noticias.articles;
+    //             dom_mostrarNoticias();
+    //         })
+    // }
 
 
-// Ejecucion principal
+// EJECUCION principal
 // --------------------------------------------------------------------------
-
-// Recupero el carrito y el id guardado en localStorage
-// let carritoArr = [];
-let carritoArr = JSON.parse(localStorage.getItem("carrito")) || [];
-let idCarrito = JSON.parse(localStorage.getItem("idCarrito")) || 0;
 
 // Si se recargo la pagina y el carrito tenia productos, pregunto si quiere iniciar un nuevo carrito o continuar con el anterior
 if(carritoArr.length > 0) {
@@ -511,6 +536,33 @@ borrarCarrito();
 obtenerNoticias();
 
 
+// Creacion de descuentos por default
+descuentosArr.push(new Descuentos(0, 0, 0)); // sin descuento
+descuentosArr.push(new Descuentos(1, 10, 0)); // 10% 
+descuentosArr.push(new Descuentos(1, 20, 0)); // 20%
+descuentosArr.push(new Descuentos(1, 30, 0)); // 30%
+descuentosArr.push(new Descuentos(2, 2, 1)); // 2x1
+descuentosArr.push(new Descuentos(2, 3, 2)); // 3x2
+descuentosArr.push(new Descuentos(2, 4, 3)); // 4x3
+descuentosArr.push(new Descuentos(3, 80, 0)); // 2da al 80%
+descuentosArr.push(new Descuentos(3, 70, 0)); // 2da al 70%
+descuentosArr.push(new Descuentos(3, 50, 0)); // 2da al 50%
+
+// Le asigno un numero a cada item del array descuentosArr para usarlo como numero de opcion a seleccionar
+descuentosArr.forEach((cadaDescuento, i) => cadaDescuento.nroOpcionDescuento = i );
+
+// Muestro los descuentos en el html
+dom_mostrarOpcionesDescuentos();
+
+
+    
+
+
+
+
+
+
+
 // Use math.round(numero *100)/100 en vez de toFixed() para que no me ponga por default decimales aunque no los tenga (Ej 5.00 en vez de 5)
 
 // ---------------------------------
@@ -531,19 +583,21 @@ obtenerNoticias();
 // Achicar y cambiar a color mas suave el detalle en el carrito - OK
 // Si no le pongo nombre en cargar producto que hace, le pone un guion, otra cosa, o nada - OK
 // limitar los caracteres de ingreso de nombre (20 caracteres) - OK 
+// Ver total en dolares o publicar noticias con API - OK
+// Linkear los enlaces del nav a los modal de cada seccion - OK
 
-// Ver total en dolares o publicar noticias con API
-// 2do descuento en la parte de comparar productos
 // Crear descuentosArr personalizadas
+// Opcion de ordenar el carrito (por orden de carga, precio, o alfabeticamente)
+// Modificar un producto que esta en el carrito
+// dar formato a noticias
+// Cerrar el menu de descuentos cuando se vuelve a abrir o se carga otro producto si no tiene uno fijo
+// Cerrar el menu del nav al entrar a un enlace
+// Acomodar la version pc para que se vea bien
+// Cambiar tipografia
+// Ayuda
 // Opcion de tomar el 2do descuento sobre el anterior
 // Opcion de fijar el segundo descuento
-// Opcion de ordenar el carrito (por orden de carga, precio, o alfabeticamente)
-// Cerrar el menu de descuentos cuando se vuelve a abrir o se carga otro producto si no tiene uno fijo
-// Cambiar tipografia
-// Acomodar la version pc para que se vea bien
-// Ayuda
-// Cerrar el menu del nav al entrar a un enlace
-// Modificar un producto que esta en el carrito
+// 2do descuento en la parte de comparar productos
 // Ordenar codigo. Las variables globales van arriba
 
 
