@@ -207,7 +207,6 @@ const dom_mostrarCarrito = () => {
 const dom_mostrarNoticias = () => {
 
     let dom_carrouselNoticias = document.getElementById("dom_carrouselNoticias");
-    let dom_carrouselNoticias_button = document.getElementById("dom_carrouselNoticias_button");
 
     noticiasArr.forEach((noticia, index) => {
 
@@ -476,25 +475,28 @@ const checkboxCarrito = () => {
 // API - noticias
 // --------------------------------------------------------------------------
 
-async function obtenerNoticias() {
-    const URLnoticias = "https://newsapi.org/v2/top-headlines?sources=google-news-ar&apiKey=92e842bb69124b7cb758e43fe2f54d1d";
-    const resp = await fetch(URLnoticias);
-    const data = await resp.json();
-    noticiasArr = data.articles;
-    dom_mostrarNoticias();
-}
+// Usando async await
+
+// async function obtenerNoticias() {
+//     const URLnoticias = "https://newsapi.org/v2/top-headlines?sources=google-news-ar&apiKey=92e842bb69124b7cb758e43fe2f54d1d";
+//     const resp = await fetch(URLnoticias);
+//     const data = await resp.json();
+//     noticiasArr = data.articles;
+//     console.table = noticiasArr;
+//     dom_mostrarNoticias();
+// }
 
 // Lo mismo pero usando fetch
 
-    // function obtenerNoticias() {
-    //     const URLnoticias = "https://newsapi.org/v2/top-headlines?sources=google-news-ar&apiKey=92e842bb69124b7cb758e43fe2f54d1d";
-    //     fetch(URLnoticias)
-    //         .then(resultado => resultado.json())
-    //         .then(noticias => {
-    //             noticiasArr = noticias.articles;
-    //             dom_mostrarNoticias();
-    //         })
-    // }
+const obtenerNoticias = () => {
+    const URLnoticias = "https://newsapi.org/v2/top-headlines?sources=google-news-ar&apiKey=92e842bb69124b7cb758e43fe2f54d1d";
+    fetch(URLnoticias)
+        .then(resultado => resultado.json())
+        .then(noticias => {
+            noticiasArr = noticias.articles;
+            dom_mostrarNoticias();
+        })
+}
 
 
 // EJECUCION principal
@@ -529,11 +531,11 @@ if(carritoArr.length > 0) {
       })
 };
 
+obtenerNoticias();
 dom_mostrarCarrito();
 agregarProductoCarrito();
 checkboxCarrito();
 borrarCarrito();
-obtenerNoticias();
 
 
 // Creacion de descuentos por default
