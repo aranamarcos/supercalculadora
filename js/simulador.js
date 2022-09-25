@@ -240,6 +240,8 @@ const dom_mostrarNoticias = () => {
 
     // Hago la validacion solo para cuando lo subo al servidor porque la API funciona gratuita solo para localhost
     if(noticiasArr != []){
+        console.log(noticiasArr);
+        console.table(noticiasArr);
 
         seccionNoticias.innerHTML += `
         
