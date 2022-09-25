@@ -238,9 +238,6 @@ const dom_mostrarNoticias = () => {
 
     let seccionNoticias = document.getElementById("seccionNoticias");
 
-    // Hago la validacion solo para cuando lo subo al servidor porque la API funciona gratuita solo para localhost
-    if(noticiasArr != undefined){
-
         seccionNoticias.innerHTML += `
         
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -277,8 +274,7 @@ const dom_mostrarNoticias = () => {
                 </div>
             </div>`
         }); 
-    }
-};
+    };
 
 
 // DOM - respuesta de la comparacion
@@ -730,9 +726,12 @@ const obtenerNoticias = () => {
         .then(resultado => resultado.json())
         .then(noticias => {
             noticiasArr = noticias.articles;
-            dom_mostrarNoticias();
-        })
-}
+            // Hago la validacion para cuando lo subo al servidor, porque la API gratuita funciona solo para localhost, entonces no muestro la seccion
+            if(noticiasArr != undefined){
+                dom_mostrarNoticias();
+            };
+        });
+};
 
 // Lo mismo usando async await
 
@@ -824,57 +823,5 @@ agregarProductoCarrito();
 checkboxCarrito();
 sumarRestarProductos();
 borrarCarrito();
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-// Use math.round(numero *100)/100 en vez de toFixed() para que no me ponga por default decimales aunque no los tenga (Ej 5.00 en vez de 5)
-
-// ---------------------------------
-// PENDIENTES
-// --------------------------------- 
-
-// Logica de comparacion - OK
-// Total de la compra - OK
-// Guardar carrito en local storage - OK
-// Mensaje de item cargado al carrito - OK
-// Eliminar productos del carrito - OK
-// Tachar productos para chequear ticket - OK
-// idCarrito: reiniciar cuando borro todo el carrito - OK
-// Mejorar diseño - OK
-// Ver decimales, que no aparezca por ej cantidad 5.00, sino 5. - OK
-// cuando se cierra y se va a agregar un producto, preguntar si empezar un carrito nuevo o continuar - OK
-// Ver total en el footer - OK
-// Achicar y cambiar a color mas suave el detalle en el carrito - OK
-// Si no le pongo nombre en cargar producto que hace, le pone un guion, otra cosa, o nada - OK
-// limitar los caracteres de ingreso de nombre (20 caracteres) - OK 
-// Ver total en dolares o publicar noticias con API - OK
-// Linkear los enlaces del nav a los modal de cada seccion - OK
-
-// Crear descuentosArr personalizadas - OK
-// Opcion de ordenar el carrito (por orden de carga, precio, o alfabeticamente)
-// Modificar un producto que esta en el carrito
-// dar formato a noticias
-// Cerrar el menu de descuentos cuando se vuelve a abrir o se carga otro producto si no tiene uno fijo
-// Cerrar el menu del nav al entrar a un enlace
-// Acomodar la version pc para que se vea bien
-// Cambiar tipografia
-// Ayuda
-// Opcion de tomar el 2do descuento sobre el anterior
-// Opcion de fijar el segundo descuento
-// 2do descuento en la parte de comparar productos
-// Ordenar codigo. Las variables globales van arriba
 
 
