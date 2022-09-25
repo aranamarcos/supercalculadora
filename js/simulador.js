@@ -678,7 +678,8 @@ const sumarRestarProductos = () => {
 
     domCarrito_botonMostrarMasMenos.onclick=(()=>{
         mostrarMasMenos_flagStyle = (mostrarMasMenos_flagStyle === 'ocultar') ? '' : 'ocultar';
-        dom_mostrarCarrito();           
+        dom_mostrarCarrito();
+        checkboxCarrito();          
         });
 
     // sumar o restar unidades de productos
@@ -806,6 +807,7 @@ if(carritoArr.length > 0) {
             idCarrito = 0;
             localStorage.setItem("idCarrito", idCarrito);
             dom_mostrarCarrito();
+            checkboxCarrito();
         }
     })
 };
