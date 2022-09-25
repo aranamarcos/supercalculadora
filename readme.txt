@@ -96,3 +96,7 @@ Se recomienda que para ver el funcionamiento se corra desde localhost.
 - Una opcion para elegir como calcular el 2do descuento, si sobre el subtotal o sobre el subtotal menos el primer descuento.
 - Una opcion para que quede fijo el segundo descuento si se necesita, por ejemplo por si tengo un descuento que aplica a todos los productos no tener que ingresarlo todas las veces que cargo un producto.
 - Poder calcular con un 2do descuento en la parte de comparar productos.
+
+---------------
+<Github Pages>
+https://aranamarcos.github.io/supercalculadora/
