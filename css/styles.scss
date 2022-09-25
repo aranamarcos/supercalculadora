@@ -12,6 +12,10 @@ $myColors: (
     c6: #EB1B94
 );
 
+html {
+    min-height: 100vh;
+}
+
 body {
     width: 100%;
 }
@@ -21,6 +25,10 @@ nav img {
     margin-right: 10px;
 }
 
+.informacion {
+    color: blue;
+    width: 20px;
+}
 
 #seccionInicio {
     color: map-get($myColors, c1);
@@ -110,6 +118,26 @@ nav img {
     .textoDetalleCarrito {
         color: map-get($myColors, c3);
         font-size: small;
+    }
+    .mostrar {
+        display: flex;
+    }
+    .ocultar {
+        display: none!important;
+    }
+    #domCarrito_botonMostrarMasMenos{
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+#modalConfiguracion {
+    .inputAgregarDescuento {
+        width: 100px;
+        margin: 5px;   
+    }
+    p {
+        text-decoration: underline;
     }
 }
 

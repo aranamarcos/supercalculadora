@@ -3,6 +3,10 @@
   Padding: 0;
 }
 
+html {
+  min-height: 100vh;
+}
+
 body {
   width: 100%;
 }
@@ -10,6 +14,11 @@ body {
 nav img {
   height: 35px;
   margin-right: 10px;
+}
+
+.informacion {
+  color: blue;
+  width: 20px;
 }
 
 #seccionInicio {
@@ -102,6 +111,24 @@ nav img {
 #modalVerCarrito .textoDetalleCarrito {
   color: grey;
   font-size: small;
+}
+#modalVerCarrito .mostrar {
+  display: flex;
+}
+#modalVerCarrito .ocultar {
+  display: none !important;
+}
+#modalVerCarrito #domCarrito_botonMostrarMasMenos {
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+#modalConfiguracion .inputAgregarDescuento {
+  width: 100px;
+  margin: 5px;
+}
+#modalConfiguracion p {
+  text-decoration: underline;
 }
 
 footer {

@@ -1,7 +1,7 @@
 
 // Estructura del JS
 
-// DECLARACION - variables globales
+// DECLARACION - variables globales y popovers
 // CONSTRUCTOR - opciones de descuento
 // CONSTRUCTOR - productos para el carrito
 // CONSTRUCTOR - comparacion de productos
@@ -9,25 +9,36 @@
 // DOM - mostrar el carrito
 // DOM - mostrar noticias
 // DOM - respuesta de la comparacion
+// EVENTOS - crear descuento - mostrar campos segun tipo a crear
+// EVENTOS - crear descuento - crear al presionar boton
+// EVENTOS - borrar descuento
+// EVENTOS - restaurar descuentos por default
 // EVENTOS - comparar productos
 // EVENTOS - borrar datos del modal comparacion
 // EVENTOS - agregar producto al carrito
 // EVENTOS - borrar carrito
 // EVENTOS - seleccionar item del carrito con checkbox
+// EVENTOS - sumar o restar mas productos en el carrito
 // API - noticias
-// EJECUCION principal
+// CONFIGURACION descuentos por default
+// EJECUCION inicial
 
 
 
-// DECLARACION - variables globales
+// DECLARACION - variables globales y popovers
 // --------------------------------------------------------------------------
 
-// Recupero el carrito y el id guardado en localStorage
+// Recupero el carrito con su id, y los descuentos guardados en localStorage
 let carritoArr = JSON.parse(localStorage.getItem("carrito")) || [];
 let idCarrito = JSON.parse(localStorage.getItem("idCarrito")) || 0;
+let descuentosArr = JSON.parse(localStorage.getItem("descuentos")) || [];
 
-let descuentosArr = [];
 let noticiasArr = [];
+let mostrarMasMenos_flagStyle = 'ocultar';
+
+// Habilito el uso de popovers (bootstrap)
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 
 
 // CONSTRUCTOR - opciones de descuento
@@ -37,7 +48,7 @@ class Descuentos {
     
     //Segun el tipo de descuento y con 2 variables, creo el descuento
     constructor(tipoDescuento, dto_x, dto_y) {
-        this.nroOpcionDescuento = 0;
+        this.id = descuentosArr.length;
         this.tipoDescuento  = tipoDescuento;
         switch(tipoDescuento){
                 // Sin descuento
@@ -63,6 +74,7 @@ class Descuentos {
             }
         this.dto_x  = dto_x || 0;
         this.dto_y  = dto_y || 0;
+        this.visible = true;
     }
 };
 
@@ -73,11 +85,13 @@ class Descuentos {
 class Productos {
 
     //Constuctor de cada item que cargo en el carrito
-    constructor(id, nombre, precio, cantidad) {
+    constructor(id, nombre, precio, cantidad, idDescuento1, idDescuento2) {
         this.id = id;
         this.nombre  = nombre || "-";
         this.precio  = precio || 0;
         this.cantidad = cantidad || 0;
+        this.idDescuento1 = idDescuento1;
+        this.idDescuento2 = idDescuento2;
         this.subTotal = precio * cantidad;
         this.descuento = 0;
         this.descripcionDescuentosAplicados = "";
@@ -158,10 +172,18 @@ const dom_mostrarOpcionesDescuentos = () => {
     
     let dom_menuDescuentos = document.getElementsByClassName("dom_menuDescuentos");
     
+    // Ordeno el array
+    descuentosArr = descuentosArr.sort((a, b) => a.dto_x - b.dto_x);
+    descuentosArr = descuentosArr.sort((a, b) => a.tipoDescuento - b.tipoDescuento);
+    descuentosArr = descuentosArr.sort((a, b) => +b.visible - a.visible);
+
     for(let i = 0; i < dom_menuDescuentos.length; i++) {
+        dom_menuDescuentos[i].innerHTML = "";
         descuentosArr.forEach((cadaDescuento, j) => {
-            dom_menuDescuentos[i].innerHTML += `
-            <option value="${j+1}">${cadaDescuento.descripcionExtendidaDescuento}</option>`
+            if(cadaDescuento.visible === true) {
+                dom_menuDescuentos[i].innerHTML += `
+                <option value="${j+1}">${cadaDescuento.descripcionExtendidaDescuento}</option>`
+            };
         });
     };
 };
@@ -175,7 +197,7 @@ const dom_mostrarCarrito = () => {
     let dom_seccionCarrito = document.getElementById("dom_seccionCarrito");
     let dom_totalCarrito = document.getElementById("dom_totalCarrito");
     let dom_footerTotalCarrito = document.getElementById("dom_footerTotalCarrito");
-    let totalCarrito = 0
+    let totalCarrito = 0;
     
     dom_seccionCarrito.innerHTML = "";
 
@@ -184,20 +206,28 @@ const dom_mostrarCarrito = () => {
 
         dom_seccionCarrito.innerHTML += `
         <tr>
-        <td><input value="" class="form-check-input" type="checkbox" id="domCarritoCheckbox-${producto.id}"></td>
-        <td id="domCarritoContenidoItem-${producto.id}">
-            <p class="m-0"><strong>${producto.nombre}</strong><p>
-            <p class="m-0 textoDetalleCarrito">${Math.round(producto.cantidad *100)/100} x $${Math.round(producto.precio *100)/100} = $${Math.round(producto.subTotal *100)/100}</p>
-            ${producto.descuento != 0 ? `<p class="m-0 textoDetalleCarrito">Descuentos: ${producto.descripcionDescuentosAplicados} = $${Math.round(producto.descuento *100)/100}</p>` : ""}        
-        </td>
-        <td><strong>$${Math.round(producto.total *100)/100}</strong></td>
+            <td><input value="" class="form-check-input" type="checkbox" id="domCarritoCheckbox-${producto.id}"></td>
+            <td id="domCarritoContenidoItem-${producto.id}">
+                <p class="m-0"><strong>${producto.nombre}</strong><p>
+                <p class="m-0 textoDetalleCarrito">${Math.round(producto.cantidad *100)/100} x $${Math.round(producto.precio *100)/100} = $${Math.round(producto.subTotal *100)/100}</p>
+                ${producto.descuento != 0 ? `<p class="m-0 textoDetalleCarrito">Descuentos: ${producto.descripcionDescuentosAplicados} = $${Math.round(producto.descuento *100)/100}</p>` : ""}        
+            </td>
+            <td><strong>$${Math.round(producto.total *100)/100}</strong></td>
+            <td>
+                <div class="d-flex flex-column align-items-center gap-2 ${ mostrarMasMenos_flagStyle }" id="mostrarMasMenos-${producto.id}">
+                    <div><i class="bi bi-plus-circle" id="sumarProducto-${producto.id}"></i></div>
+                    <div><i class="bi bi-dash-circle" id="restarProducto-${producto.id}"></i></div>
+                </div>
+            </td>
         </tr>`
-        });
+    });
 
     // Precio total del carrito
     totalCarrito = carritoArr.reduce((acumulador, producto) => acumulador + producto.total, 0)
     dom_totalCarrito.innerHTML = `$ ${Math.round((totalCarrito)*100)/100}`;
     dom_footerTotalCarrito.innerHTML = `<i class="bi bi-cart4"></i> $ ${(Math.round((carritoArr.reduce((acumulador, producto) => acumulador + producto.total, 0))*100)/100).toFixed()}`
+    
+    sumarRestarProductos();
 };
 
 
@@ -206,10 +236,27 @@ const dom_mostrarCarrito = () => {
 
 const dom_mostrarNoticias = () => {
 
+    let seccionNoticias = document.getElementById("seccionNoticias");
+    
+    seccionNoticias.innerHTML += `
+    
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+  
+        <div class="carousel-inner" id="dom_carrouselNoticias"></div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>`;
+
     let dom_carrouselNoticias = document.getElementById("dom_carrouselNoticias");
-
+    
     noticiasArr.forEach((noticia, index) => {
-
         dom_carrouselNoticias.innerHTML += `
         <div class="carousel-item ${index == 0 ? "active" : ""}">
             <div class="card">
@@ -278,6 +325,153 @@ const dibujarRespuestaComparacion = ((ahorro, ProdRecomendado)=> {
         <p class="text-center">Llevando ${ProdRecomendado.cantidad} paquete(s) estas ahorrando <strong>$${Math.round(ahorro *100)/100}</strong></p>
         `;
     };    
+});
+
+
+// EVENTOS - crear descuento - mostrar campos segun tipo a crear
+// --------------------------------------------------------------------------
+
+let domDescuentos_TipoACrear = document.getElementById("domDescuentos_TipoACrear");
+let domDescuentos_Crear_cargaValores = document.getElementById("domDescuentos_Crear_cargaValores");
+
+domDescuentos_TipoACrear.onchange=(()=>{
+
+    switch(domDescuentos_TipoACrear.selectedIndex){
+        case 0:
+            domDescuentos_Crear_cargaValores.innerHTML = "";
+            break;
+        case 1:
+            // Descuentos del tipo X% (ejemplo: 50%, 50% de descuento)
+            domDescuentos_Crear_cargaValores.innerHTML = `
+            <p>Valor de descuento</p>
+            <div class="d-flex align-items-center">
+                <input type="number" class="form-control inputAgregarDescuento" style="text-align:center" id="domDescuentos_Crear_cargaValoresX" placeholder="" autocomplete="off"></input>
+                % de descuento.
+            </div>
+            `
+            break;
+        case 2:
+            // Descuentos del tipo X*Y (ejemplo: 2x1, lleva 2 paga 1)
+            domDescuentos_Crear_cargaValores.innerHTML = `
+            <p>Valor de descuento</p>
+            <div class="d-flex align-items-center">
+                Lleva 
+                <input type="number" class="form-control inputAgregarDescuento" style="text-align:center" id="domDescuentos_Crear_cargaValoresX" placeholder="" autocomplete="off"></input>
+                 paga 
+                <input type="number" class="form-control inputAgregarDescuento" style="text-align:center" id="domDescuentos_Crear_cargaValoresY" placeholder="" autocomplete="off"></input>
+            </div>
+            `
+            break;
+        case 3:
+            // Descuentos del tipo 2do al X% (ejemplo: 2do al 70%, 70% de descuento en la segunda unidad)
+            domDescuentos_Crear_cargaValores.innerHTML = `
+            <p>Valor de descuento</p>
+            <div class="d-flex align-items-center">
+                <input type="number" class="form-control inputAgregarDescuento" style="text-align:center" id="domDescuentos_Crear_cargaValoresX" placeholder="" autocomplete="off"></input>
+                % de descuento en la 2da unidad.
+            </div>
+            `
+            break;
+    }
+    crear_descuento();
+})
+
+
+// EVENTOS - crear descuento - crear al presionar boton
+// --------------------------------------------------------------------------
+
+const crear_descuento = () => {
+
+    let domDescuentos_botonCrear = document.getElementById("domDescuentos_botonCrear");
+    let crearDescuentos_flagErrorInput = 0;
+    
+    domDescuentos_botonCrear.onclick=(()=>{
+
+        let domDescuentos_Crear_cargaValoresX = document.getElementById("domDescuentos_Crear_cargaValoresX").value || 0;     
+        let domDescuentos_Crear_cargaValoresY = document.getElementById("domDescuentos_Crear_cargaValoresY")?.value || 0;
+
+
+        // Evaluar posibles inputs erroneos
+        // Caso descuentos tipo X% y 2do al X% (permito valores entre 1% y 100%)
+        if((domDescuentos_TipoACrear.selectedIndex === 1 || domDescuentos_TipoACrear.selectedIndex === 3) && domDescuentos_Crear_cargaValoresX >= 1 && domDescuentos_Crear_cargaValoresX <= 100) {
+            crearDescuentos_flagErrorInput = 0;
+        } 
+        // Caso descuentos tipo X*Y (permito solo si X > Y)
+        else if (domDescuentos_TipoACrear.selectedIndex === 2 && (domDescuentos_Crear_cargaValoresX > domDescuentos_Crear_cargaValoresY)){
+            crearDescuentos_flagErrorInput = 0;
+        }
+        else {
+            crearDescuentos_flagErrorInput = 1;
+        }
+        
+
+        // Si no hay error creo el descuento y confirmo, sino emito mensaje de error para revisar los datos
+        if(crearDescuentos_flagErrorInput === 0) {
+
+            descuentosArr.push(new Descuentos(domDescuentos_TipoACrear.selectedIndex, domDescuentos_Crear_cargaValoresX, domDescuentos_Crear_cargaValoresY));
+    
+            localStorage.setItem("descuentos", JSON.stringify(descuentosArr));
+            dom_mostrarOpcionesDescuentos();
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: `Descuento creado`,
+                showConfirmButton: false,
+                timer: 1000
+            });
+            document.getElementById("domDescuentos_TipoACrear").selectedIndex = 0;
+            document.getElementById("domDescuentos_Crear_cargaValores").innerHTML = "";
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Por favor revise los campos ingresados.',
+            });
+        };
+    });
+};
+
+
+// EVENTOS - borrar descuento
+// --------------------------------------------------------------------------
+
+let domDescuentos_botonBorrar = document.getElementById("domDescuentos_botonBorrar");
+
+domDescuentos_botonBorrar.onclick=(()=>{
+
+    let domDescuentos_ItemBorrar = document.getElementById("domDescuentos_ItemBorrar").selectedIndex;
+    if(domDescuentos_ItemBorrar != 0 ){
+        descuentosArr[domDescuentos_ItemBorrar].visible = false;
+        localStorage.setItem("descuentos", JSON.stringify(descuentosArr));
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: `Borrado`,
+            showConfirmButton: false,
+            timer: 1000
+        });
+        dom_mostrarOpcionesDescuentos();
+        sumarRestarProductos();
+    }
+});
+
+
+// EVENTOS - restaurar descuentos por default
+// --------------------------------------------------------------------------
+
+let domConfiguracion_botonDefault = document.getElementById("domConfiguracion_botonDefault");
+
+domConfiguracion_botonDefault.onclick=(()=>{
+    configuracionDefault();
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: `Volviste a los descuentos originales`,
+        showConfirmButton: false,
+        timer: 1000
+    });
+    dom_mostrarOpcionesDescuentos();
+    sumarRestarProductos();
 });
 
 
@@ -363,7 +557,7 @@ const agregarProductoCarrito = () => {
             localStorage.setItem("idCarrito", idCarrito);
 
             // Creo un nuevo item y lo cargo al array
-            let itemProducto = new Productos(idCarrito, domCarrito_campoNombre, domCarrito_campoPrecio, domCarrito_campoCantidad);
+            let itemProducto = new Productos(idCarrito, domCarrito_campoNombre, domCarrito_campoPrecio, domCarrito_campoCantidad, descuentosArr[domCarrito_campoDescuento1].id, descuentosArr[domCarrito_campoDescuento2].id);
             carritoArr.push(itemProducto);
             
             // Le aplico los 2 descuentos
@@ -376,6 +570,7 @@ const agregarProductoCarrito = () => {
             // Mostrar carrito en html
             dom_mostrarCarrito();
             checkboxCarrito();
+            sumarRestarProductos();
     
             // Muestro confirmacion de item cargado al carrito
             Swal.fire({
@@ -429,6 +624,7 @@ const borrarCarrito = () => {
                 localStorage.setItem("carrito", JSON.stringify(carritoArr));
                 dom_mostrarCarrito();
                 checkboxCarrito();
+                sumarRestarProductos();
 
                 Swal.fire({
                     position: 'top-end',
@@ -472,21 +668,57 @@ const checkboxCarrito = () => {
 };
 
 
-// API - noticias
+// EVENTOS - sumar o restar mas productos en el carrito
 // --------------------------------------------------------------------------
 
-// Usando async await
+const sumarRestarProductos = () => {
 
-// async function obtenerNoticias() {
-//     const URLnoticias = "https://newsapi.org/v2/top-headlines?sources=google-news-ar&apiKey=92e842bb69124b7cb758e43fe2f54d1d";
-//     const resp = await fetch(URLnoticias);
-//     const data = await resp.json();
-//     noticiasArr = data.articles;
-//     console.table = noticiasArr;
-//     dom_mostrarNoticias();
-// }
+    // boton que muestra u oculta los + y -
+    let domCarrito_botonMostrarMasMenos = document.getElementById(`domCarrito_botonMostrarMasMenos`);
 
-// Lo mismo pero usando fetch
+    domCarrito_botonMostrarMasMenos.onclick=(()=>{
+        mostrarMasMenos_flagStyle = (mostrarMasMenos_flagStyle === 'ocultar') ? '' : 'ocultar';
+        dom_mostrarCarrito();           
+        });
+
+    // sumar o restar unidades de productos
+    carritoArr.forEach((producto) => {
+        let sumarProducto = document.getElementById(`sumarProducto-${producto.id}`);
+        let restarProducto = document.getElementById(`restarProducto-${producto.id}`);
+
+        let posicionDescuento1 = descuentosArr.findIndex(descBuscado => descBuscado.id === producto.idDescuento1);
+        let posicionDescuento2 = descuentosArr.findIndex(descBuscado => descBuscado.id === producto.idDescuento2);
+
+        sumarProducto.onclick=(()=>{
+            console.table(descuentosArr);
+            console.table(carritoArr);
+            let modificaItem = new Productos(producto.id, producto.nombre, producto.precio, producto.cantidad + 1, producto.idDescuento1, producto.idDescuento2);
+            modificaItem.aplicarDescuento(descuentosArr[posicionDescuento1].tipoDescuento, descuentosArr[posicionDescuento1].dto_x, descuentosArr[posicionDescuento1].dto_y);
+            modificaItem.aplicarDescuento(descuentosArr[posicionDescuento2].tipoDescuento, descuentosArr[posicionDescuento2].dto_x, descuentosArr[posicionDescuento2].dto_y);
+            carritoArr.splice(carritoArr.indexOf(producto), 1, modificaItem);
+            dom_mostrarCarrito();
+            checkboxCarrito();
+            sumarRestarProductos();
+        });
+        
+        restarProducto.onclick=(()=>{
+            // Cuando resto limito para que como minimo quede 1 unidad
+            if(producto.cantidad > 1){
+                let modificaItem = new Productos(producto.id, producto.nombre, producto.precio, producto.cantidad - 1, producto.idDescuento1, producto.idDescuento2);
+                modificaItem.aplicarDescuento(descuentosArr[posicionDescuento1].tipoDescuento, descuentosArr[posicionDescuento1].dto_x, descuentosArr[posicionDescuento1].dto_y);
+                modificaItem.aplicarDescuento(descuentosArr[posicionDescuento2].tipoDescuento, descuentosArr[posicionDescuento2].dto_x, descuentosArr[posicionDescuento2].dto_y);
+                carritoArr.splice(carritoArr.indexOf(producto), 1, modificaItem);
+                dom_mostrarCarrito();
+                checkboxCarrito();
+                sumarRestarProductos();
+            }
+        }); 
+    });
+};
+
+
+// API - noticias
+// --------------------------------------------------------------------------
 
 const obtenerNoticias = () => {
     const URLnoticias = "https://newsapi.org/v2/top-headlines?sources=google-news-ar&apiKey=92e842bb69124b7cb758e43fe2f54d1d";
@@ -498,21 +730,65 @@ const obtenerNoticias = () => {
         })
 }
 
+// Lo mismo usando async await
 
-// EJECUCION principal
+// async function obtenerNoticias() {
+//     const URLnoticias = "https://newsapi.org/v2/top-headlines?sources=google-news-ar&apiKey=92e842bb69124b7cb758e43fe2f54d1d";
+//     const resp = await fetch(URLnoticias);
+//     const data = await resp.json();
+//     noticiasArr = data.articles;
+//     dom_mostrarNoticias();
+// }
+
+
+// CONFIGURACION descuentos por default
+// --------------------------------------------------------------------------
+
+const configuracionDefault = () => {
+
+    // Reseteo el array si el carrito esta vacio, sino oculto todo
+    if(carritoArr.length === 0) {
+        descuentosArr = [];
+    } else {
+        descuentosArr.forEach((dto) => {
+           dto.visible = false; 
+        });
+    };
+
+    // Creacion de descuentos por default
+    descuentosArr.push(new Descuentos(0, 0, 0)); // sin descuento
+    descuentosArr.push(new Descuentos(1, 10, 0)); // 10% 
+    descuentosArr.push(new Descuentos(1, 20, 0)); // 20%
+    descuentosArr.push(new Descuentos(1, 30, 0)); // 30%
+    descuentosArr.push(new Descuentos(2, 2, 1)); // 2x1
+    descuentosArr.push(new Descuentos(2, 3, 2)); // 3x2
+    descuentosArr.push(new Descuentos(2, 4, 3)); // 4x3
+    descuentosArr.push(new Descuentos(3, 80, 0)); // 2da al 80%
+    descuentosArr.push(new Descuentos(3, 70, 0)); // 2da al 70%
+    descuentosArr.push(new Descuentos(3, 50, 0)); // 2da al 50%
+
+    // Guardo en localStorage
+    localStorage.setItem("descuentos", JSON.stringify(descuentosArr));
+
+    // Muestro los descuentos en el html
+    dom_mostrarOpcionesDescuentos();
+
+}
+
+
+// EJECUCION inicial
 // --------------------------------------------------------------------------
 
 // Si se recargo la pagina y el carrito tenia productos, pregunto si quiere iniciar un nuevo carrito o continuar con el anterior
 if(carritoArr.length > 0) {
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
-          confirmButton: 'btn btn-success',
-          cancelButton: 'btn btn-danger'
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
         },
         buttonsStyling: true
-      })
-    
-      swalWithBootstrapButtons.fire({
+    })    
+    swalWithBootstrapButtons.fire({
         title: 'Que queres hacer con tu carrito?',
         text: "Tenes productos en tu carrito, queres continuar con este, o borrarlo e iniciar uno nuevo?",
         icon: 'question',
@@ -520,7 +796,7 @@ if(carritoArr.length > 0) {
         confirmButtonText: 'Continuar con mi carrito',
         cancelButtonText: 'Borrar e iniciar uno nuevo',
         reverseButtons: true
-      }).then((result) => {
+    }).then((result) => {
         if (!result.isConfirmed) {
             carritoArr = [];
             localStorage.setItem("carrito", JSON.stringify(carritoArr));
@@ -528,33 +804,28 @@ if(carritoArr.length > 0) {
             localStorage.setItem("idCarrito", idCarrito);
             dom_mostrarCarrito();
         }
-      })
+    })
 };
 
+// Si no tengo descuentos cargados le asigno los descuentos default
+if(descuentosArr.length <= 1) {
+    configuracionDefault();
+}
+
+// Ejecuto las funciones
+dom_mostrarOpcionesDescuentos();
 obtenerNoticias();
 dom_mostrarCarrito();
 agregarProductoCarrito();
 checkboxCarrito();
+sumarRestarProductos();
 borrarCarrito();
 
 
-// Creacion de descuentos por default
-descuentosArr.push(new Descuentos(0, 0, 0)); // sin descuento
-descuentosArr.push(new Descuentos(1, 10, 0)); // 10% 
-descuentosArr.push(new Descuentos(1, 20, 0)); // 20%
-descuentosArr.push(new Descuentos(1, 30, 0)); // 30%
-descuentosArr.push(new Descuentos(2, 2, 1)); // 2x1
-descuentosArr.push(new Descuentos(2, 3, 2)); // 3x2
-descuentosArr.push(new Descuentos(2, 4, 3)); // 4x3
-descuentosArr.push(new Descuentos(3, 80, 0)); // 2da al 80%
-descuentosArr.push(new Descuentos(3, 70, 0)); // 2da al 70%
-descuentosArr.push(new Descuentos(3, 50, 0)); // 2da al 50%
 
-// Le asigno un numero a cada item del array descuentosArr para usarlo como numero de opcion a seleccionar
-descuentosArr.forEach((cadaDescuento, i) => cadaDescuento.nroOpcionDescuento = i );
 
-// Muestro los descuentos en el html
-dom_mostrarOpcionesDescuentos();
+
+
 
 
     
@@ -588,7 +859,7 @@ dom_mostrarOpcionesDescuentos();
 // Ver total en dolares o publicar noticias con API - OK
 // Linkear los enlaces del nav a los modal de cada seccion - OK
 
-// Crear descuentosArr personalizadas
+// Crear descuentosArr personalizadas - OK
 // Opcion de ordenar el carrito (por orden de carga, precio, o alfabeticamente)
 // Modificar un producto que esta en el carrito
 // dar formato a noticias
@@ -601,7 +872,5 @@ dom_mostrarOpcionesDescuentos();
 // Opcion de fijar el segundo descuento
 // 2do descuento en la parte de comparar productos
 // Ordenar codigo. Las variables globales van arriba
-
-
 
 
