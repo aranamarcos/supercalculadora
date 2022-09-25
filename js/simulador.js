@@ -238,8 +238,8 @@ const dom_mostrarNoticias = () => {
 
     let seccionNoticias = document.getElementById("seccionNoticias");
 
-    // Hago la validacion de undefined solo para cuando lo subo al servidor porque la API funciona gratuita solo para localhost
-    if(seccionNoticias != undefined){
+    // Hago la validacion solo para cuando lo subo al servidor porque la API funciona gratuita solo para localhost
+    if(noticiasArr != []){
 
         seccionNoticias.innerHTML += `
         

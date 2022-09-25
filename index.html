@@ -243,89 +243,89 @@
 
 <!-- ========== Modal COMPARAR 2 PRODUCTOS ========== -->                    
 
-<div class="modal fade" id="modalCompararProductos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal fade" id="modalCompararProductos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Comparar productos</h5>
-                <h6><i class="bi bi-info-circle-fill informacion ms-2" tabindex="0" role="button" data-bs-toggle="popover" data-bs-title="Comparar Productos" data-bs-content="En esta seccion puede comparar 2 productos de diferentes tamaños, precios, y descuentos, para saber cual es la opcion mas economica y cuanto puede ahorrar."></i></h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body p-0">
-                <div class="d-flex">
-
-                    <!-- ===== Producto A ===== -->
-                    <div class="card m-2">
-                        <h5 class="card-header text-center" id="domCompara_headerProdA">Producto A</h5>
-                        <div class="card-body">
-
-                            <form id="formCompara_ProdA">
-                                <!-- cantidadPorPaquete del producto -->
-                                <div class="mb-3">
-                                    <div class="d-flex">
-                                        <p class="text-center m-0">Cantidad por envase</p>
-                                        <h6 class=" flex-fill"><i class="bi bi-info-circle-fill informacion ms-2" tabindex="0" role="button" data-bs-toggle="popover" data-bs-title="Cantidad por envase" data-html="true" data-bs-content="Ejemplo 1: Si esta comparando queso crema de 300 gramos contra uno de 400 gramos, ingrese 300 y 400. Ejemplo 2: Si esta comparando un paquete de galletitas individual contra uno familiar que trae 3 paquetes adentro, ingrese 1 y 3. Ejemplo 3: Si los dos paquetes son iguales, ingrese 1 y 1."></i></h6>
-                                    </div>
-                                    <input type="number" class="form-control me-2" style="text-align:center" id="domCompara_campoPesoA" placeholder="" autocomplete="off">
-                                </div>
-                    
-                                <!-- precio unitario -->
-                                <div class="mb-3">
-                                    <p class="text-center m-0">Precio ($)</p>
-                                    <input type="number" class="form-control me-2" style="text-align:center" id="domCompara_campoPrecioA" placeholder="" autocomplete="off">
-                                </div>
-                    
-                                <!-- descuento -->
-                                <div class="mb-3">
-                                    <p class="text-center m-0">Descuento</p>
-                                    <select class="form-select me-2 dom_menuDescuentos" id="domCompara_campoDescuentoA"></select>
-                                </div>
-                            </form>
-                        </div>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Comparar productos</h5>
+                        <h6><i class="bi bi-info-circle-fill informacion ms-2" tabindex="0" role="button" data-bs-toggle="popover" data-bs-title="Comparar Productos" data-bs-content="En esta seccion puede comparar 2 productos de diferentes tamaños, precios, y descuentos, para saber cual es la opcion mas economica y cuanto puede ahorrar."></i></h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <!-- ===== Producto B ===== -->
-                    <div class="card m-2">
-                        <h5 class="card-header text-center" id="domCompara_headerProdB">Producto B</h5>
-                        <div class="card-body">
+                    <div class="modal-body p-0">
+                        <div class="d-flex">
 
-                            <form id="formCompara_ProdB">
-                                <!-- cantidadPorPaquete del producto -->
-                                <div class="mb-3">
-                                    <p class="text-center m-0">Cantidad por envase</p>
-                                    <input type="number" class="form-control me-2" style="text-align:center" id="domCompara_campoPesoB" placeholder="" autocomplete="off">
+                            <!-- ===== Producto A ===== -->
+                            <div class="card m-2">
+                                <h5 class="card-header text-center" id="domCompara_headerProdA">Producto A</h5>
+                                <div class="card-body">
+
+                                    <form id="formCompara_ProdA">
+                                        <!-- cantidadPorPaquete del producto -->
+                                        <div class="mb-3">
+                                            <div class="d-flex">
+                                                <p class="text-center m-0">Cantidad por envase</p>
+                                                <h6 class=" flex-fill"><i class="bi bi-info-circle-fill informacion ms-2" tabindex="0" role="button" data-bs-toggle="popover" data-bs-title="Cantidad por envase" data-html="true" data-bs-content="Ejemplo 1: Si esta comparando queso crema de 300 gramos contra uno de 400 gramos, ingrese 300 y 400. Ejemplo 2: Si esta comparando un paquete de galletitas individual contra uno familiar que trae 3 paquetes adentro, ingrese 1 y 3. Ejemplo 3: Si los dos paquetes son iguales, ingrese 1 y 1."></i></h6>
+                                            </div>
+                                            <input type="number" class="form-control me-2" style="text-align:center" id="domCompara_campoPesoA" placeholder="" autocomplete="off">
+                                        </div>
+                            
+                                        <!-- precio unitario -->
+                                        <div class="mb-3">
+                                            <p class="text-center m-0">Precio ($)</p>
+                                            <input type="number" class="form-control me-2" style="text-align:center" id="domCompara_campoPrecioA" placeholder="" autocomplete="off">
+                                        </div>
+                            
+                                        <!-- descuento -->
+                                        <div class="mb-3">
+                                            <p class="text-center m-0">Descuento</p>
+                                            <select class="form-select me-2 dom_menuDescuentos" id="domCompara_campoDescuentoA"></select>
+                                        </div>
+                                    </form>
                                 </div>
-                    
-                                <!-- precio unitario -->
-                                <div class="mb-3">
-                                    <p class="text-center m-0">Precio ($)</p>
-                                    <input type="number" class="form-control me-2" style="text-align:center" id="domCompara_campoPrecioB" placeholder="" autocomplete="off">
+                            </div>
+
+                            <!-- ===== Producto B ===== -->
+                            <div class="card m-2">
+                                <h5 class="card-header text-center" id="domCompara_headerProdB">Producto B</h5>
+                                <div class="card-body">
+
+                                    <form id="formCompara_ProdB">
+                                        <!-- cantidadPorPaquete del producto -->
+                                        <div class="mb-3">
+                                            <p class="text-center m-0">Cantidad por envase</p>
+                                            <input type="number" class="form-control me-2" style="text-align:center" id="domCompara_campoPesoB" placeholder="" autocomplete="off">
+                                        </div>
+                            
+                                        <!-- precio unitario -->
+                                        <div class="mb-3">
+                                            <p class="text-center m-0">Precio ($)</p>
+                                            <input type="number" class="form-control me-2" style="text-align:center" id="domCompara_campoPrecioB" placeholder="" autocomplete="off">
+                                        </div>
+                            
+                                        <!-- descuento -->
+                                        <div class="mb-3">
+                                            <p class="text-center m-0">Descuento</p>
+                                            <select class="form-select me-2 dom_menuDescuentos" id="domCompara_campoDescuentoB"></select>
+                                        </div>
+                                    </form>
                                 </div>
-                    
-                                <!-- descuento -->
-                                <div class="mb-3">
-                                    <p class="text-center m-0">Descuento</p>
-                                    <select class="form-select me-2 dom_menuDescuentos" id="domCompara_campoDescuentoB"></select>
-                                </div>
-                            </form>
+                            </div>
                         </div>
+                        <!-- ===== Respuesta DOM ===== -->
+                        <div id="dom_respuestaComparacion"></div>
+                    </div>
+
+                    <!-- ===== Footer Modal ===== -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="domCompara_botonBorrar"><i class="bi bi-trash3-fill"></i></button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Salir</button>
+                        <button type="button" class="btn btn-primary" id="domCompara_botonComparar">Comparar</button>
                     </div>
                 </div>
-                <!-- ===== Respuesta DOM ===== -->
-                <div id="dom_respuestaComparacion"></div>
-            </div>
-
-            <!-- ===== Footer Modal ===== -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="domCompara_botonBorrar"><i class="bi bi-trash3-fill"></i></button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Salir</button>
-                <button type="button" class="btn btn-primary" id="domCompara_botonComparar">Comparar</button>
             </div>
         </div>
-    </div>
-</div>
 
 
 
