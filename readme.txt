@@ -99,4 +99,8 @@ Se recomienda que para ver el funcionamiento se corra desde localhost.
 
 ---------------
 <Github Pages>
+<<<<<<< HEAD
 https://aranamarcos.github.io/supercalculadora/
+=======
+https://aranamarcos.github.io/supercalculadora/
+>>>>>>> e4508fd (titulo)
