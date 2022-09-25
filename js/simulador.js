@@ -237,43 +237,47 @@ const dom_mostrarCarrito = () => {
 const dom_mostrarNoticias = () => {
 
     let seccionNoticias = document.getElementById("seccionNoticias");
-    
-    seccionNoticias.innerHTML += `
-    
-    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-  
-        <div class="carousel-inner" id="dom_carrouselNoticias"></div>
 
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>`;
+    // Hago la validacion de undefined solo para cuando lo subo al servidor porque la API funciona gratuita solo para localhost
+    if(seccionNoticias != undefined){
 
-    let dom_carrouselNoticias = document.getElementById("dom_carrouselNoticias");
+        seccionNoticias.innerHTML += `
+        
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+      
+            <div class="carousel-inner" id="dom_carrouselNoticias"></div>
     
-    noticiasArr.forEach((noticia, index) => {
-        dom_carrouselNoticias.innerHTML += `
-        <div class="carousel-item ${index == 0 ? "active" : ""}">
-            <div class="card">
-                <div class="row g-0">
-                    <div class="col-4 d-flex justify-content-center align-items-center noticia">
-                        <img src="${noticia.urlToImage}" class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-8 d-flex align-items-center noticia">
-                        <div class="card-body">
-                            <h5 class="card-title">${noticia.title}</h5>
-                            <p class="card-text">${noticia.description}</p>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>`;
+    
+        let dom_carrouselNoticias = document.getElementById("dom_carrouselNoticias");
+        
+        noticiasArr.forEach((noticia, index) => {
+            dom_carrouselNoticias.innerHTML += `
+            <div class="carousel-item ${index == 0 ? "active" : ""}">
+                <div class="card">
+                    <div class="row g-0">
+                        <div class="col-4 d-flex justify-content-center align-items-center noticia">
+                            <img src="${noticia.urlToImage}" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-8 d-flex align-items-center noticia">
+                            <div class="card-body">
+                                <h5 class="card-title">${noticia.title}</h5>
+                                <p class="card-text">${noticia.description}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>`
-    }); 
+            </div>`
+        }); 
+    }
 };
 
 
