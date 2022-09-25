@@ -87,12 +87,12 @@ IMPORTANTE:
 Para usar la API de forma gratuita se utilizo el plan Developer.
 Este plan restringe cualquier origen que no sea localhost, por lo que solo se mostraran cuando se corra en localhost. 
 Se recomienda que para ver el funcionamiento se corra desde localhost.
-La API funcionaria correctamente sin modificaciones desde un dominio con un plan de pago. 
 
 ---------------
 <Pendientes para futuras versiones>
 
-- Poder ordenar el carrito (por orden de carga, precio, o alfabeticamente)
-- Agregar una opcion para que elegir como calcular el 2do descuento, si sobre el subtotal o sobre el subtotal menos el primer descuento.
-- Dejar una opcion para que quede fijo el segundo descuento si se necesita, por ejemplo por si tengo un descuento que aplica a todos los productos no tener que ingresarlo todas las veces que cargo un producto.
-- Poder calcular con un 2do descuento en la parte de comparar productos
+- Un boton para que se pueda ordenar el carrito (por orden de carga, precio, o alfabeticamente)
+- Una barra de buscar a medida que se vaya escribiendo.
+- Una opcion para elegir como calcular el 2do descuento, si sobre el subtotal o sobre el subtotal menos el primer descuento.
+- Una opcion para que quede fijo el segundo descuento si se necesita, por ejemplo por si tengo un descuento que aplica a todos los productos no tener que ingresarlo todas las veces que cargo un producto.
+- Poder calcular con un 2do descuento en la parte de comparar productos.
