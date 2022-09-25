@@ -239,9 +239,7 @@ const dom_mostrarNoticias = () => {
     let seccionNoticias = document.getElementById("seccionNoticias");
 
     // Hago la validacion solo para cuando lo subo al servidor porque la API funciona gratuita solo para localhost
-    if(noticiasArr != []){
-        console.log(noticiasArr);
-        console.table(noticiasArr);
+    if(noticiasArr != undefined){
 
         seccionNoticias.innerHTML += `
         
